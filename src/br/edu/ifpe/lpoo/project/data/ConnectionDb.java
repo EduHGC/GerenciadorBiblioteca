@@ -13,7 +13,17 @@ public class ConnectionDb {
 		try {
 			return DriverManager.getConnection("jdbc:mysql://localhost:3306/testelivro", "root", "root");
 		} catch (SQLException e) {
-			throw new ExceptionDb("Falha na conexão com o banco de dados");
+			throw new ExceptionDb("Falha na conexão com o banco de dados: " + e.getMessage());
+		}
+	}
+
+	public static void closeConnection(Connection conn) {
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				throw new ExceptionDb("Erro no fechamento da conexão: " + e.getMessage());
+			}
 		}
 	}
 
