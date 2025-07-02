@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.edu.ifpe.lpoo.project.entities.acervo.Livro;
 
-public interface ILivroReposiotry {
+public interface ILivroRepository {
 
 	int inserir(Livro livro);
 

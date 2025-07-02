@@ -10,11 +10,11 @@ import java.util.List;
 
 import br.edu.ifpe.lpoo.project.data.ConnectionDb;
 import br.edu.ifpe.lpoo.project.data.repository.IExemplarRepository;
-import br.edu.ifpe.lpoo.project.data.repository.ILivroReposiotry;
+import br.edu.ifpe.lpoo.project.data.repository.ILivroRepository;
 import br.edu.ifpe.lpoo.project.entities.acervo.Livro;
 import br.edu.ifpe.lpoo.project.exception.ExceptionDb;
 
-public class LivroRepository implements ILivroReposiotry {
+public class LivroRepository implements ILivroRepository {
 
 	private Livro instanciarLivro(ResultSet rst) throws SQLException {
 
@@ -68,7 +68,7 @@ public class LivroRepository implements ILivroReposiotry {
 			}
 
 		} catch (SQLException e) {
-			throw new ExceptionDb("Erro ao inserir livro no banco de dados");
+			throw new ExceptionDb("Erro ao inserir livro no banco de dados: " + e.getMessage());
 		}
 
 		return idLivro;
@@ -83,7 +83,7 @@ public class LivroRepository implements ILivroReposiotry {
 
 		boolean existe = false;
 
-		String sql = "SELECT * FROM livro"
+		String sql = "SELECT * FROM livro "
 				+ "WHERE isbn = ? OR (titulo = ? AND editora = ? AND autor = ?  AND  ano_publicacao = ?  AND  idioma = ?";
 
 		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -104,7 +104,7 @@ public class LivroRepository implements ILivroReposiotry {
 			}
 
 		} catch (SQLException e) {
-			throw new ExceptionDb("Erro ao buscar livro no banco de dados");
+			throw new ExceptionDb("Erro ao buscar livro no banco de dados: " + e.getMessage());
 		}
 
 		return existe;
@@ -133,7 +133,7 @@ public class LivroRepository implements ILivroReposiotry {
 			}
 
 		} catch (SQLException e) {
-			throw new ExceptionDb("Erro no banco ao buscar livro por id");
+			throw new ExceptionDb("Erro no banco ao buscar livro por id: " + e.getMessage());
 		}
 
 		return livro;
@@ -260,7 +260,7 @@ public class LivroRepository implements ILivroReposiotry {
 			stmt.executeUpdate();
 
 		} catch (SQLException e) {
-			throw new ExceptionDb(e.getMessage());
+			throw new ExceptionDb("Erro no banco ao atualizar livro: " + e.getMessage());
 		}
 	}
 }
