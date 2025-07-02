@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifpe.lpoo.project.data.ConnectionDb;
@@ -182,19 +183,84 @@ public class LivroRepository implements ILivroReposiotry {
 
 	@Override
 	public List<Livro> buscarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Livro> livros = new ArrayList<>();
+
+		String sql = "SELECT * FROM livro";
+
+		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			try (ResultSet rst = stmt.executeQuery()) {
+				while (rst.next()) {
+					livros.add(instanciarLivro(rst));
+				}
+			}
+
+		} catch (SQLException e) {
+			throw new ExceptionDb("Erro ao buscar Livros" + e.getMessage());
+		}
+
+		return livros;
 	}
 
 	@Override
 	public List<Livro> buscarPorTermo(String termo) {
-		// TODO Auto-generated method stub
-		return null;
+		if (termo == null) {
+			throw new ExceptionDb("O termo de pesquisa não pode ser null");
+		}
+
+		List<Livro> livros = new ArrayList<>();
+
+		String termoBusca = "%" + termo.toLowerCase() + "%";
+
+		String sql = "SELECT * FROM livro WHERE " + "LOWER(titulo) LIKE ? " + "OR LOWER(isbn) LIKE ? "
+				+ "OR LOWER(autor) LIKE ? " + "ORDER BY titulo";
+
+		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setString(1, termoBusca);
+			stmt.setString(2, termoBusca);
+			stmt.setString(3, termoBusca);
+
+			try (ResultSet rst = stmt.executeQuery()) {
+				while (rst.next()) {
+
+					livros.add(instanciarLivro(rst));
+				}
+			}
+		} catch (SQLException e) {
+			throw new ExceptionDb("Erro ao buscar Livros: " + e.getMessage());
+		}
+		return livros;
 	}
 
 	@Override
 	public void atualizar(Livro livro) {
-		// TODO Auto-generated method stub
 
+		if (livro == null) {
+			throw new ExceptionDb("Objeto tipo Livro não pode ser null");
+		}
+
+		String sql = "UPDATE livro "
+				+ "SET isbn = ?, numero_paginas = ?, genero = ?, titulo = ?, autor = ?, ano_publicacao = ?, editora = ?, idioma = ? "
+				+ "WHERE id_livro = ?";
+
+		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setString(1, livro.getIsbn());
+			stmt.setInt(2, livro.getNumeroPaginas());
+			stmt.setString(3, livro.getGenero());
+			stmt.setString(4, livro.getTitulo());
+			stmt.setString(5, livro.getAutor());
+			stmt.setInt(6, livro.getAnoPublicacao());
+			stmt.setString(7, livro.getEditora());
+			stmt.setString(8, livro.getIdioma());
+			stmt.setInt(9, livro.getId());
+
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new ExceptionDb(e.getMessage());
+		}
 	}
 }
