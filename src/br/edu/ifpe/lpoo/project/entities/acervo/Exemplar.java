@@ -9,9 +9,8 @@ public class Exemplar {
 	private String registro;
 	private StatusExemplar status;
 
-	public Exemplar(int idExemplar, int idLivro, String registro, StatusExemplar status) {
-		super();
-		this.idExemplar = idExemplar;
+	public Exemplar(int idLivro, String registro, StatusExemplar status) {
+		
 		this.idLivro = idLivro;
 		this.registro = registro;
 		this.status = status;

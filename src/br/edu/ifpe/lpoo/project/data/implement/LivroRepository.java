@@ -156,7 +156,7 @@ public class LivroRepository implements ILivroRepository {
 			conn.setAutoCommit(false);
 
 			IExemplarRepository exemplarRepository = new ExemplarRepository();
-			exemplarRepository.deletar(idLivro, conn);
+			exemplarRepository.deletarComLivro(idLivro, conn);
 
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
