@@ -3,18 +3,15 @@ package br.edu.ifpe.lpoo.project.entities.acervo;
 public class Periodico extends ItemAcervo {
 
 	private String issn;
-	private int numeroEdicao;
 	private int volume;
-	private String dataPublicacao;
-	private String genero;
+	private int edicao;
 
-	public Periodico(String titulo, String autor, int anoPublicacao, String editora, String idioma, String issn,
-			int numeroEdicao, int volume, String genero) {
-		super(titulo, autor, anoPublicacao, editora, idioma);
+	public Periodico(int idItem, String titulo, String autor, String editora, int anoPublicacao, String genero,
+			String idioma, int numeroPaginas, String issn, int volume, int edicao) {
+		super(idItem, titulo, autor, editora, anoPublicacao, genero, idioma, numeroPaginas);
 		this.issn = issn;
-		this.numeroEdicao = numeroEdicao;
 		this.volume = volume;
-		this.genero = genero;
+		this.edicao = edicao;
 	}
 
 	public String getIssn() {
@@ -25,14 +22,6 @@ public class Periodico extends ItemAcervo {
 		this.issn = issn;
 	}
 
-	public int getNumeroEdicao() {
-		return numeroEdicao;
-	}
-
-	public void setNumeroEdicao(int numeroEdicao) {
-		this.numeroEdicao = numeroEdicao;
-	}
-
 	public int getVolume() {
 		return volume;
 	}
@@ -41,20 +30,12 @@ public class Periodico extends ItemAcervo {
 		this.volume = volume;
 	}
 
-	public String getDataPublicacao() {
-		return dataPublicacao;
+	public int getEdicao() {
+		return edicao;
 	}
 
-	public void setDataPublicacao(String dataPublicacao) {
-		this.dataPublicacao = dataPublicacao;
-	}
-
-	public String getGenero() {
-		return genero;
-	}
-
-	public void setGenero(String genero) {
-		this.genero = genero;
+	public void setEdicao(int edicao) {
+		this.edicao = edicao;
 	}
 
 }

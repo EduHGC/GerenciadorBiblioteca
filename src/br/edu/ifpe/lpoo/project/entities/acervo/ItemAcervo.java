@@ -2,19 +2,34 @@ package br.edu.ifpe.lpoo.project.entities.acervo;
 
 public abstract class ItemAcervo {
 
+	private int idItem;
 	private String titulo;
 	private String autor;
-	private int anoPublicacao;
 	private String editora;
+	private int anoPublicacao;
+	private String genero;
 	private String idioma;
-	private int id;
+	private int numeroPaginas;
 
-	public ItemAcervo(String titulo, String autor, int anoPublicacao, String editora, String idioma) {
+	public ItemAcervo(int idItem, String titulo, String autor, String editora, int anoPublicacao, String genero,
+			String idioma, int numeroPaginas) {
+		super();
+		this.idItem = idItem;
 		this.titulo = titulo;
 		this.autor = autor;
-		this.anoPublicacao = anoPublicacao;
 		this.editora = editora;
+		this.anoPublicacao = anoPublicacao;
+		this.genero = genero;
 		this.idioma = idioma;
+		this.numeroPaginas = numeroPaginas;
+	}
+
+	public int getIdItem() {
+		return idItem;
+	}
+
+	public void setIdItem(int idItem) {
+		this.idItem = idItem;
 	}
 
 	public String getTitulo() {
@@ -33,6 +48,14 @@ public abstract class ItemAcervo {
 		this.autor = autor;
 	}
 
+	public String getEditora() {
+		return editora;
+	}
+
+	public void setEditora(String editora) {
+		this.editora = editora;
+	}
+
 	public int getAnoPublicacao() {
 		return anoPublicacao;
 	}
@@ -41,12 +64,12 @@ public abstract class ItemAcervo {
 		this.anoPublicacao = anoPublicacao;
 	}
 
-	public String getEditora() {
-		return editora;
+	public String getGenero() {
+		return genero;
 	}
 
-	public void setEditora(String editora) {
-		this.editora = editora;
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
 
 	public String getIdioma() {
@@ -57,12 +80,11 @@ public abstract class ItemAcervo {
 		this.idioma = idioma;
 	}
 
-	public int getId() {
-		return id;
+	public int getNumeroPaginas() {
+		return numeroPaginas;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setNumeroPaginas(int numeroPaginas) {
+		this.numeroPaginas = numeroPaginas;
 	}
-
 }

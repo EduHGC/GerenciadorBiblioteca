@@ -5,17 +5,13 @@ import br.edu.ifpe.lpoo.project.enums.FormatoDigital;
 public class Ebook extends ItemAcervo {
 
 	private String isbn;
-	private int numeroPaginas;
-	private String genero;
 	private FormatoDigital formatoDigital;
 	private String url;
 
-	public Ebook(String titulo, String autor, int anoPublicacao, String editora, String idioma, String isbn,
-			int numeroPaginas, String genero, FormatoDigital formatoDigital, String url) {
-		super(titulo, autor, anoPublicacao, editora, idioma);
+	public Ebook(int idItem, String titulo, String autor, String editora, int anoPublicacao, String genero,
+			String idioma, int numeroPaginas, String isbn, FormatoDigital formatoDigital, String url) {
+		super(idItem, titulo, autor, editora, anoPublicacao, genero, idioma, numeroPaginas);
 		this.isbn = isbn;
-		this.numeroPaginas = numeroPaginas;
-		this.genero = genero;
 		this.formatoDigital = formatoDigital;
 		this.url = url;
 	}
@@ -26,22 +22,6 @@ public class Ebook extends ItemAcervo {
 
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
-	}
-
-	public int getNumeroPaginas() {
-		return numeroPaginas;
-	}
-
-	public void setNumeroPaginas(int numeroPaginas) {
-		this.numeroPaginas = numeroPaginas;
-	}
-
-	public String getGenero() {
-		return genero;
-	}
-
-	public void setGenero(String genero) {
-		this.genero = genero;
 	}
 
 	public FormatoDigital getFormatoDigital() {
