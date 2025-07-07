@@ -11,10 +11,8 @@ public abstract class ItemAcervo {
 	private String idioma;
 	private int numeroPaginas;
 
-	public ItemAcervo(int idItem, String titulo, String autor, String editora, int anoPublicacao, String genero,
+	public ItemAcervo(String titulo, String autor, String editora, int anoPublicacao, String genero,
 			String idioma, int numeroPaginas) {
-		super();
-		this.idItem = idItem;
 		this.titulo = titulo;
 		this.autor = autor;
 		this.editora = editora;

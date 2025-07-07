@@ -11,13 +11,15 @@ public interface IExemplarRepository {
 	
 	boolean existe(Exemplar exemplar);
 	
-	void deletarComLivro(int idLivro, Connection conn);
+	void deletarItem(int idLivro, Connection conn);
 	
 	void deletar(Exemplar exemplar);
 	
 	void atualizar(Exemplar exemplar);
 
-	public Exemplar buscarPorId(int idItem);
-
-	public List<Exemplar> buscarTodosPorIdLivro(int idItem);
+	Exemplar buscarPorId(int idItem);
+	
+	List<Exemplar> buscarTodos();
+	
+	List<Exemplar> buscarTodosPorIdItem(int idItem);
 }

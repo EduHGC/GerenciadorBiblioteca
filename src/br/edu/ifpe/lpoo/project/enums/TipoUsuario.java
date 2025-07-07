@@ -2,7 +2,7 @@ package br.edu.ifpe.lpoo.project.enums;
 
 public enum TipoUsuario {
 	
-	ALUNO("Pluno"),
+	ALUNO("Aluno"),
 	PROFESSOR("Professor"),
 	PESQUISADOR("Pesquisador");
 	

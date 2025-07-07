@@ -18,18 +18,18 @@ public class LivroRepository implements ILivroRepository {
 
 	private Livro instanciarLivro(ResultSet rst) throws SQLException {
 
-		int idLivro = rst.getInt("id_livro");
+		int idItem = rst.getInt("id_item");
 		String titulo = rst.getString("titulo");
 		String autor = rst.getString("autor");
 		int anoPublicacao = rst.getInt("ano_publicacao");
 		String editora = rst.getString("editora");
 		String idioma = rst.getString("idioma");
 		String isbn = rst.getString("isbn");
-		int numeroPaginas = rst.getInt("numero_paginas");
+		int numeroPagina = rst.getInt("numero_pagina");
 		String genero = rst.getString("genero");
 
-		Livro livro = new Livro(titulo, autor, anoPublicacao, editora, idioma, isbn, numeroPaginas, genero);
-		livro.setId(idLivro);
+		Livro livro = new Livro(titulo, autor, editora, anoPublicacao, genero, idioma, numeroPagina, isbn);
+		livro.setIdItem(idItem);
 
 		return livro;
 	}
@@ -43,32 +43,55 @@ public class LivroRepository implements ILivroRepository {
 
 		int idLivro = -1;
 
-		String sql = "INSERT INTO livro (isbn, numero_paginas, genero, titulo, autor, ano_publicacao, editora, idioma) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String sqlAcervo = "INSERT INTO item_acervo (titulo, autor, editora, ano_publicacao, genero, idioma, numero_pagina) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String sqlLivro = "INSERT INTO livro (id_livro, isbn) VALUES (?, ?)";
 
-		try (Connection conn = ConnectionDb.getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		PreparedStatement stmt1 = null;
+		ResultSet rst = null;
 
-			stmt.setString(1, livro.getIsbn());
-			stmt.setInt(2, livro.getNumeroPaginas());
-			stmt.setString(3, livro.getGenero());
-			stmt.setString(4, livro.getTitulo());
-			stmt.setString(5, livro.getAutor());
-			stmt.setInt(6, livro.getAnoPublicacao());
-			stmt.setString(7, livro.getEditora());
-			stmt.setString(8, livro.getIdioma());
+		try {
+			conn = ConnectionDb.getConnection();
+			conn.setAutoCommit(false);
 
+			stmt = conn.prepareStatement(sqlAcervo, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, livro.getTitulo());
+			stmt.setString(2, livro.getAutor());
+			stmt.setString(3, livro.getEditora());
+			stmt.setInt(4, livro.getAnoPublicacao());
+			stmt.setString(5, livro.getGenero());
+			stmt.setString(6, livro.getIdioma());
+			stmt.setInt(7, livro.getNumeroPaginas());
 			stmt.executeUpdate();
 
-			try (ResultSet rst = stmt.getGeneratedKeys()) {
-
-				if (rst.next()) {
-					idLivro = rst.getInt(1);
-				}
+			rst = stmt.getGeneratedKeys();
+			if (rst.next()) {
+				idLivro = rst.getInt(1);
+			} else {
+				throw new ExceptionDb("Não foi gerado id ao inserir um novo livro");
 			}
 
+			stmt1 = conn.prepareStatement(sqlLivro);
+			stmt1.setInt(1, idLivro);
+			stmt1.setString(2, livro.getIsbn());
+			stmt1.executeUpdate();
+
+			conn.commit();
+
 		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				throw new ExceptionDb("Erro no rollback ao inserir livro no banco de dados: " + e1.getMessage());
+			}
 			throw new ExceptionDb("Erro ao inserir livro no banco de dados: " + e.getMessage());
+		} finally {
+			ConnectionDb.closeResultSet(rst);
+			ConnectionDb.closeStatement(stmt);
+			ConnectionDb.closeStatement(stmt1);
+			ConnectionDb.closeConnection(conn);
 		}
 
 		return idLivro;
@@ -83,8 +106,9 @@ public class LivroRepository implements ILivroRepository {
 
 		boolean existe = false;
 
-		String sql = "SELECT * FROM livro "
-				+ "WHERE isbn = ? OR (titulo = ? AND editora = ? AND autor = ?  AND  ano_publicacao = ?  AND  idioma = ?";
+		String sql = "SELECT * FROM item_acervo " + "INNER JOIN livro ON item_acervo.id_item = livro.id_livro "
+				+ "WHERE livro.isbn = ? OR (item_acervo.titulo = ? AND item_acervo.editora = ? AND item_acervo.autor = ?  "
+				+ "AND  item_acervo.ano_publicacao = ?  AND  item_acervo.idioma = ?)";
 
 		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -97,7 +121,7 @@ public class LivroRepository implements ILivroRepository {
 
 			try (ResultSet rst = stmt.executeQuery()) {
 
-				while (rst.next()) {
+				if (rst.next()) {
 					existe = true;
 				}
 
@@ -119,7 +143,9 @@ public class LivroRepository implements ILivroRepository {
 
 		Livro livro = null;
 
-		String sql = "SELECT * FROM livro WHERE id_livro = ?";
+		String sql = "SELECT id_item, titulo, autor, editora, ano_publicacao, genero, idioma, numero_pagina, "
+				+ "isbn FROM item_acervo INNER JOIN livro ON item_acervo.id_item = livro.id_livro "
+				+ "WHERE item_acervo.id_item = ?";
 
 		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -127,7 +153,7 @@ public class LivroRepository implements ILivroRepository {
 
 			try (ResultSet rst = stmt.executeQuery()) {
 
-				while (rst.next()) {
+				if (rst.next()) {
 					livro = instanciarLivro(rst);
 				}
 			}
@@ -148,7 +174,8 @@ public class LivroRepository implements ILivroRepository {
 
 		Connection conn = null;
 
-		String sql = "DELETE FROM livro WHERE id_livro = ?";
+		String sqlItemAcervo = "DELETE FROM item_acervo WHERE id_item = ?";
+		String sqlLivro = "DELETE FROM livro WHERE id_livro = ?";
 
 		try {
 
@@ -156,17 +183,21 @@ public class LivroRepository implements ILivroRepository {
 			conn.setAutoCommit(false);
 
 			IExemplarRepository exemplarRepository = new ExemplarRepository();
-			exemplarRepository.deletarComLivro(idLivro, conn);
+			exemplarRepository.deletarItem(idLivro, conn);
 
-			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+			try (PreparedStatement stmt = conn.prepareStatement(sqlLivro);
+					PreparedStatement stmt1 = conn.prepareStatement(sqlItemAcervo)) {
 
 				stmt.setInt(1, idLivro);
-
 				stmt.executeUpdate();
+				
+				stmt1.setInt(1, idLivro);
+				stmt1.executeUpdate();
 
 			}
 
 			conn.commit();
+
 		} catch (SQLException e) {
 			if (conn != null) {
 				try {
@@ -186,7 +217,8 @@ public class LivroRepository implements ILivroRepository {
 
 		List<Livro> livros = new ArrayList<>();
 
-		String sql = "SELECT * FROM livro";
+		String sql = "SELECT id_item, titulo, autor, editora, ano_publicacao, genero, idioma, numero_pagina, "
+				+ "isbn FROM item_acervo INNER JOIN livro ON item_acervo.id_item = livro.id_livro ";
 
 		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -211,10 +243,11 @@ public class LivroRepository implements ILivroRepository {
 
 		List<Livro> livros = new ArrayList<>();
 
-		String termoBusca = "%" + termo.toLowerCase() + "%";
+		String termoBusca = "%" + termo.toLowerCase().trim() + "%";
 
-		String sql = "SELECT * FROM livro WHERE " + "LOWER(titulo) LIKE ? " + "OR LOWER(isbn) LIKE ? "
-				+ "OR LOWER(autor) LIKE ? " + "ORDER BY titulo";
+		String sql = "SELECT id_item, titulo, autor, editora, ano_publicacao, genero, idioma, numero_pagina, "
+				+ "isbn FROM item_acervo INNER JOIN livro ON item_acervo.id_item = livro.id_livro " + "WHERE "
+				+ "LOWER(titulo) LIKE ? " + "OR LOWER(isbn) LIKE ? " + "OR LOWER(autor) LIKE ? " + "ORDER BY titulo";
 
 		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -241,26 +274,45 @@ public class LivroRepository implements ILivroRepository {
 			throw new ExceptionDb("Objeto tipo Livro não pode ser null");
 		}
 
-		String sql = "UPDATE livro "
-				+ "SET isbn = ?, numero_paginas = ?, genero = ?, titulo = ?, autor = ?, ano_publicacao = ?, editora = ?, idioma = ? "
-				+ "WHERE id_livro = ?";
+		String sqlItemAcervo = "UPDATE item_acervo SET titulo = ?, autor = ?, editora = ?, ano_publicacao = ?, genero = ?, idioma = ?, numero_pagina = ? "
+				+ "WHERE id_item = ?";
+		String sqlLivro = "UPDATE livro SET isbn = ? WHERE id_livro = ?";
 
-		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		Connection conn = null;
 
-			stmt.setString(1, livro.getIsbn());
-			stmt.setInt(2, livro.getNumeroPaginas());
-			stmt.setString(3, livro.getGenero());
-			stmt.setString(4, livro.getTitulo());
-			stmt.setString(5, livro.getAutor());
-			stmt.setInt(6, livro.getAnoPublicacao());
-			stmt.setString(7, livro.getEditora());
-			stmt.setString(8, livro.getIdioma());
-			stmt.setInt(9, livro.getId());
+		try {
 
-			stmt.executeUpdate();
+			conn = ConnectionDb.getConnection();
+			conn.setAutoCommit(false);
+
+			try (PreparedStatement stmt = conn.prepareStatement(sqlItemAcervo);
+					PreparedStatement stmt1 = conn.prepareStatement(sqlLivro)) {
+
+				stmt.setString(1, livro.getTitulo());
+				stmt.setString(2, livro.getAutor());
+				stmt.setString(3, livro.getEditora());
+				stmt.setInt(4, livro.getAnoPublicacao());
+				stmt.setString(5, livro.getGenero());
+				stmt.setString(6, livro.getIdioma());
+				stmt.setInt(7, livro.getNumeroPaginas());
+				stmt.setInt(8, livro.getIdItem());
+				stmt.executeUpdate();
+
+				stmt1.setString(1, livro.getIsbn());
+				stmt1.executeUpdate();
+
+				conn.commit();
+			}
 
 		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				throw new ExceptionDb("Erro no rollback ao atualizar Livro: " + e1.getMessage());
+			}
 			throw new ExceptionDb("Erro no banco ao atualizar livro: " + e.getMessage());
+		} finally {
+			ConnectionDb.closeConnection(conn);
 		}
 	}
 }
