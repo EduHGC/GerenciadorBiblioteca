@@ -299,6 +299,7 @@ public class LivroRepository implements ILivroRepository {
 				stmt.executeUpdate();
 
 				stmt1.setString(1, livro.getIsbn());
+				stmt1.setInt(2, livro.getIdItem());
 				stmt1.executeUpdate();
 
 				conn.commit();
