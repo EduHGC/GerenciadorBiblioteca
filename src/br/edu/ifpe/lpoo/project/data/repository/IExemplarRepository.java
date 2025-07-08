@@ -7,7 +7,7 @@ import br.edu.ifpe.lpoo.project.entities.acervo.Exemplar;
 
 public interface IExemplarRepository {
 
-	void inserir(Exemplar exemplar, int idLivro);
+	void inserir(Exemplar exemplar);
 	
 	boolean existe(Exemplar exemplar);
 	

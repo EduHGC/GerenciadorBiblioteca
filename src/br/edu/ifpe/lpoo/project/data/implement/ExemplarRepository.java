@@ -57,14 +57,10 @@ public class ExemplarRepository implements IExemplarRepository {
 	}
 
 	@Override
-	public void inserir(Exemplar exemplar, int idItem) {
+	public void inserir(Exemplar exemplar) {
 
 		if (exemplar == null) {
 			throw new ExceptionDb("O objeto do tipo exemplar não pode ser null");
-		}
-
-		if (idItem <= 0) {
-			throw new ExceptionDb("Id inválido");
 		}
 
 		String sql = "INSERT INTO exemplar (id_item, registro, tipo_item, status_exemplar) VALUES (?, ?, ?, ?)";
