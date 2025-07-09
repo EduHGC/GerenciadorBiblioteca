@@ -21,7 +21,8 @@ public class BibliotecaApp extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-    private JTabbedPane abas; 
+	private JTabbedPane abas;
+
 	/**
 	 * Launch the application.
 	 */
@@ -42,84 +43,85 @@ public class BibliotecaApp extends JFrame {
 	 * Create the frame.
 	 */
 	public BibliotecaApp() {
-		
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 10, 1300, 800); 
-        contentPane = new JPanel(new BorderLayout()); 
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-		
-        //Lado esquerdo
-        JPanel painelEsquerdo = new JPanel();
-        painelEsquerdo.setBorder(BorderFactory.createTitledBorder("Menu"));
-        painelEsquerdo.setBackground(new Color(240, 240, 255)); 
-        painelEsquerdo.setLayout(null); 
 
-        
-        JButton btnLivros = new JButton("Livros");
-        btnLivros.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		carregarSecao("Livros");
-        	}
-        });
-        btnLivros.setFont(new Font("Arial Black", Font.BOLD, 20));
-        btnLivros.setBounds(0, 40, 200, 100);
-        painelEsquerdo.add(btnLivros);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setBounds(100, 10, 1300, 800); 
+		contentPane = new JPanel(new BorderLayout());
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
 
-        JButton btnPeriodicos = new JButton("Periódicos");
-        btnPeriodicos.setFont(new Font("Arial Black", Font.BOLD, 20));
-        btnPeriodicos.setBounds(0, 140, 200, 100);
-        painelEsquerdo.add(btnPeriodicos);
+		addWindowStateListener(e -> {
+			int oldState = e.getOldState();
+			int newState = e.getNewState();
 
-        JButton btnExemplar = new JButton("Exemplares");
-        btnExemplar.setFont(new Font("Arial Black", Font.BOLD, 20));
-        btnExemplar.setBounds(0, 240, 200, 100);
-        painelEsquerdo.add(btnExemplar);
+			if ((oldState & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH
+					&& (newState & JFrame.NORMAL) == JFrame.NORMAL) {
+				setBounds(100, 10, 1300, 800);
+			}
+		});
 
-        JButton btnReservas = new JButton("Reservas");
-        btnReservas.setFont(new Font("Arial Black", Font.BOLD, 20));
-        btnReservas.setBounds(0, 340, 200, 100);
-        painelEsquerdo.add(btnReservas);
+		// Lado esquerdo
+		JPanel painelEsquerdo = new JPanel();
+		painelEsquerdo.setBackground(new Color(240, 240, 255));
+		painelEsquerdo.setLayout(null);
 
-        JButton btnEmprestimos = new JButton("Empréstimos");
-        btnEmprestimos.setFont(new Font("Arial Black", Font.BOLD, 20));
-        btnEmprestimos.setBounds(0, 440, 200, 100);
-        painelEsquerdo.add(btnEmprestimos);
-        
-        //Abas a direita
-        abas = new JTabbedPane();
-        abas.setBorder(BorderFactory.createTitledBorder("Conteúdo"));
-        abas.setBackground(new Color(255, 240, 240)); 
+		JButton btnLivros = new JButton("Livros");
+		btnLivros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarSecao("Livros");
+			}
+		});
+		btnLivros.setFont(new Font("Arial Black", Font.BOLD, 20));
+		btnLivros.setBounds(0, 0, 200, 100);
+		painelEsquerdo.add(btnLivros);
 
-        
-        JPanel painelInicial = new JPanel();
-        painelInicial.add(new JLabel("Selecione uma opção no menu à esquerda."));
-        abas.addTab("Início", painelInicial);
-        
-        
-        JSplitPane splitPane = new JSplitPane(
-                JSplitPane.HORIZONTAL_SPLIT, 
-                new JScrollPane(painelEsquerdo),  
-                abas   
-        );
-        splitPane.setDividerLocation(200); 
-        splitPane.setOneTouchExpandable(true); 
+		JButton btnPeriodicos = new JButton("Periódicos");
+		btnPeriodicos.setFont(new Font("Arial Black", Font.BOLD, 20));
+		btnPeriodicos.setBounds(0, 100, 200, 100);
+		painelEsquerdo.add(btnPeriodicos);
 
-        // Centraliza o JSplitPane 
-        contentPane.add(splitPane, BorderLayout.CENTER);
+		JButton btnExemplar = new JButton("Exemplares");
+		btnExemplar.setFont(new Font("Arial Black", Font.BOLD, 20));
+		btnExemplar.setBounds(0, 200, 200, 100);
+		painelEsquerdo.add(btnExemplar);
 
-        
-		
+		JButton btnReservas = new JButton("Reservas");
+		btnReservas.setFont(new Font("Arial Black", Font.BOLD, 20));
+		btnReservas.setBounds(0, 300, 200, 100);
+		painelEsquerdo.add(btnReservas);
+
+		JButton btnEmprestimos = new JButton("Empréstimos");
+		btnEmprestimos.setFont(new Font("Arial Black", Font.BOLD, 20));
+		btnEmprestimos.setBounds(0, 400, 200, 100);
+		painelEsquerdo.add(btnEmprestimos);
+
+		// Abas a direita
+		abas = new JTabbedPane();
+		abas.setBackground(new Color(255, 255, 255));
+
+		JPanel painelInicial = new JPanel();
+		painelInicial.add(new JLabel("Selecione uma opção no menu à esquerda."));
+		abas.addTab("Início", painelInicial);
+
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(painelEsquerdo), abas);
+		splitPane.setDividerLocation(200);
+		splitPane.setOneTouchExpandable(true);
+
+		// Centraliza o JSplitPane
+		contentPane.add(splitPane, BorderLayout.CENTER);
+
 	}
-	
-	private void carregarSecao(String secao) {
-	    abas.removeAll(); // Remove todas as abas existentes
 
-	    switch (secao) {
-	        case "Livros":
-	            abas.addTab("Cadastrar Livro", new PainelCadastroLivro());
+	private void carregarSecao(String secao) {
+		abas.removeAll(); // Remove todas as abas existentes
+
+		switch (secao) {
+		case "Livros":
+			abas.addTab("Cadastrar Livro", new PainelCadastroLivro());
+			abas.addTab("Lista de Livros", new PainelListarLivros());
 //	            abas.addTab("Consultar Livros", new PainelConsultaLivro());
-	            break;
+			break;
 //	        case "Periódicos":
 //	            abas.addTab("Cadastrar Periódico", new PainelCadastroPeriodico());
 //	            abas.addTab("Consultar Periódicos", new PainelConsultaPeriodico());
@@ -136,12 +138,12 @@ public class BibliotecaApp extends JFrame {
 //	            abas.addTab("Registrar Empréstimo", new PainelRegistroEmprestimo());
 //	            abas.addTab("Consultar Empréstimos", new PainelConsultaEmprestimo());
 //	            break;
-	        default:
-	            JPanel painel = new JPanel();
-	            painel.add(new JLabel("Seção não reconhecida."));
-	            abas.addTab("Erro", painel);
-	            break;
-	    }
+		default:
+			JPanel painel = new JPanel();
+			painel.add(new JLabel("Seção não reconhecida."));
+			abas.addTab("Erro", painel);
+			break;
+		}
 	}
-	
+
 }
