@@ -11,7 +11,7 @@ import java.io.File;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class PainelCadastroLivro extends JPanel {
+public class JPainelCadastroLivro extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldISBN;
 	private JTextField textFieldTitulo;
@@ -28,7 +28,7 @@ public class PainelCadastroLivro extends JPanel {
 	private JLabel lblCapa;
 	private JLabel lblCapaLivro;
 
-	public PainelCadastroLivro() {
+	public JPainelCadastroLivro() {
 
 		setLayout(null);
 
@@ -140,7 +140,7 @@ public class PainelCadastroLivro extends JPanel {
 						|| textFieldNumPaginas.getText().trim().isEmpty()
 						|| textFieldQtdExemplares.getText().trim().isEmpty()) {
 
-					JOptionPane.showMessageDialog(PainelCadastroLivro.this,
+					JOptionPane.showMessageDialog(JPainelCadastroLivro.this,
 							"Por favor, preencha todos os campos para efetuar o cadastro do livro. Isbn pode ser vazio",
 							"Campos Vazios", JOptionPane.WARNING_MESSAGE);
 
@@ -161,19 +161,19 @@ public class PainelCadastroLivro extends JPanel {
 					LivroController livroController = new LivroController();
 					livroController.cadastarLivro(titulo, autor, editora, anoPubli, genero, idioma, numPaginas, isbn,
 							qtdExemplares);
-					JOptionPane.showMessageDialog(PainelCadastroLivro.this,
+					JOptionPane.showMessageDialog(JPainelCadastroLivro.this,
 							"O livro foi cadastrado com sucesso em nosso sistema.", "Cadastro Concluído",
 							JOptionPane.INFORMATION_MESSAGE);
 					limparCampos();
-					
+
 				} catch (BusinessException e1) {
-					JOptionPane.showMessageDialog(PainelCadastroLivro.this, e1.getMessage(), "Erro",
+					JOptionPane.showMessageDialog(JPainelCadastroLivro.this, e1.getMessage(), "Erro",
 							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
 		});
-		
+
 		btnCadastrarLivro.setFont(new Font("Arial Black", Font.BOLD, 15));
 		btnCadastrarLivro.setBackground(new Color(240, 240, 240));
 		btnCadastrarLivro.setBounds(40, 650, 400, 40);
@@ -192,6 +192,7 @@ public class PainelCadastroLivro extends JPanel {
 		btnSelecionarCapa.setBounds(500, 350, 250, 40);
 		add(btnSelecionarCapa);
 
+		// Selecionar a Capa
 		btnSelecionarCapa.addActionListener(e -> {
 			JFileChooser fileChooser = new JFileChooser();
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos de Imagem", "jpg", "jpeg", "png",
@@ -234,19 +235,19 @@ public class PainelCadastroLivro extends JPanel {
 	private File getArquivoCapaSelecionada() {
 		return arquivoCapaSelecionada;
 	}
-	
+
 	private void limparCampos() {
 		textFieldISBN.setText("");
-	    textFieldTitulo.setText("");
-	    textFieldAutor.setText("");
-	    textFieldEditora.setText("");
-	    textFieldAnoPubli.setText("");
-	    textFieldGenero.setText("");
-	    textFieldIdioma.setText("");
-	    textFieldNumPaginas.setText("");
-	    textFieldQtdExemplares.setText("");
-	    lblCapaLivro.setIcon(null);
-	    lblCapaLivro.setText("Capa do livro");
-	    arquivoCapaSelecionada = null;
+		textFieldTitulo.setText("");
+		textFieldAutor.setText("");
+		textFieldEditora.setText("");
+		textFieldAnoPubli.setText("");
+		textFieldGenero.setText("");
+		textFieldIdioma.setText("");
+		textFieldNumPaginas.setText("");
+		textFieldQtdExemplares.setText("");
+		lblCapaLivro.setIcon(null);
+		lblCapaLivro.setText("Capa do livro");
+		arquivoCapaSelecionada = null;
 	}
 }

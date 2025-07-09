@@ -16,14 +16,14 @@ import br.edu.ifpe.lpoo.project.business.acervo.LivroController;
 import br.edu.ifpe.lpoo.project.entities.acervo.Livro;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
 
-public class PainelListarLivros extends JPanel {
+public class PainelListarLivros1 extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
 	private LivroController livroController;
 	private JTable tabelaLivros;
 	
-	public PainelListarLivros() {
+	public PainelListarLivros1() {
 		
 		setLayout(new BorderLayout());
 

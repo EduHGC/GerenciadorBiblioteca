@@ -118,8 +118,8 @@ public class BibliotecaApp extends JFrame {
 
 		switch (secao) {
 		case "Livros":
-			abas.addTab("Cadastrar Livro", new PainelCadastroLivro());
-			abas.addTab("Lista de Livros", new PainelListarLivros());
+			abas.addTab("Cadastrar Livro", new JPainelCadastroLivro());
+			abas.addTab("Lista de Livros", new JPanelListaLivros());
 //	            abas.addTab("Consultar Livros", new PainelConsultaLivro());
 			break;
 //	        case "Periódicos":
