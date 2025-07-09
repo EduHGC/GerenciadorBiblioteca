@@ -3,6 +3,8 @@ package br.edu.ifpe.lpoo.project.ui;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -22,41 +24,62 @@ public class JPanelListaLivros extends JPanel {
 
 	private LivroController livroController;
 	private JPanel painelCards;
-	
+
 	public JPanelListaLivros() {
-		
+
 		setLayout(new BorderLayout());
-		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				atualizarLista();
+			}
+		});
 		livroController = new LivroController();
 
-        JLabel titulo = new JLabel("Lista de Livros");
-        titulo.setHorizontalAlignment(SwingConstants.CENTER);
-        titulo.setFont(new Font("Arial Black", Font.BOLD, 20));
-        add(titulo, BorderLayout.NORTH);
-        
-        painelCards = new JPanel(new GridLayout(0, 2, 10, 10));
-        painelCards.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
-        try {
-        	List<Livro> livros = livroController.listarLivros();
-        	
-        	if (livros.isEmpty()) {
-                JLabel mensagemVazia = new JLabel("Nenhum livro cadastrado.", SwingConstants.CENTER);
-                mensagemVazia.setFont(new Font("Arial", Font.PLAIN, 16));
-                painelCards.add(mensagemVazia); 
-            } else {
-                for (Livro livro : livros) {
-                    painelCards.add(new JCardLivro(livro));
-                }
-            }
-        	
-        }catch(BusinessException e) {
-        	JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-        
-        JScrollPane scrollPane = new JScrollPane(painelCards);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        add(scrollPane, BorderLayout.CENTER);
+		JLabel titulo = new JLabel("Lista de Livros");
+		titulo.setHorizontalAlignment(SwingConstants.CENTER);
+		titulo.setFont(new Font("Arial Black", Font.BOLD, 20));
+		add(titulo, BorderLayout.NORTH);
+
+		painelCards = new JPanel(new GridLayout(0, 2, 10, 10));
+		painelCards.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		 carregarLivros();
+		
+		JScrollPane scrollPane = new JScrollPane(painelCards);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+		add(scrollPane, BorderLayout.CENTER);
+
+	}
+
+	private void carregarLivros() {
+		
+		painelCards.removeAll();
+		
+		try {
+			List<Livro> livros = livroController.listarLivros();
+
+			if (livros.isEmpty()) {
+				JLabel mensagemVazia = new JLabel("Nenhum livro cadastrado.", SwingConstants.CENTER);
+				mensagemVazia.setFont(new Font("Arial", Font.PLAIN, 16));
+				painelCards.add(mensagemVazia);
+			} else {
+				for (Livro livro : livros) {
+					painelCards.add(new JCardLivro(livro));
+				}
+			}
+
+		} catch (BusinessException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		painelCards.revalidate();
+        painelCards.repaint();
+
 	}
 	
+	private void atualizarLista() {
+		carregarLivros();
+	}
+
 }
