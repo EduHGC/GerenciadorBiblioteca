@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BibliotecaApp extends JFrame {
 
@@ -55,6 +57,11 @@ public class BibliotecaApp extends JFrame {
 
         
         JButton btnLivros = new JButton("Livros");
+        btnLivros.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		carregarSecao("Livros");
+        	}
+        });
         btnLivros.setFont(new Font("Arial Black", Font.BOLD, 20));
         btnLivros.setBounds(0, 40, 200, 100);
         painelEsquerdo.add(btnLivros);
@@ -103,6 +110,38 @@ public class BibliotecaApp extends JFrame {
 
         
 		
+	}
+	
+	private void carregarSecao(String secao) {
+	    abas.removeAll(); // Remove todas as abas existentes
+
+	    switch (secao) {
+	        case "Livros":
+	            abas.addTab("Cadastrar Livro", new PainelCadastroLivro());
+//	            abas.addTab("Consultar Livros", new PainelConsultaLivro());
+	            break;
+//	        case "Periódicos":
+//	            abas.addTab("Cadastrar Periódico", new PainelCadastroPeriodico());
+//	            abas.addTab("Consultar Periódicos", new PainelConsultaPeriodico());
+//	            break;
+//	        case "Exemplares":
+//	            abas.addTab("Adicionar Exemplar", new PainelAdicionarExemplar());
+//	            abas.addTab("Consultar Exemplares", new PainelConsultaExemplar());
+//	            break;
+//	        case "Reservas":
+//	            abas.addTab("Registrar Reserva", new PainelRegistroReserva());
+//	            abas.addTab("Consultar Reservas", new PainelConsultaReserva());
+//	            break;
+//	        case "Empréstimos":
+//	            abas.addTab("Registrar Empréstimo", new PainelRegistroEmprestimo());
+//	            abas.addTab("Consultar Empréstimos", new PainelConsultaEmprestimo());
+//	            break;
+	        default:
+	            JPanel painel = new JPanel();
+	            painel.add(new JLabel("Seção não reconhecida."));
+	            abas.addTab("Erro", painel);
+	            break;
+	    }
 	}
 	
 }
