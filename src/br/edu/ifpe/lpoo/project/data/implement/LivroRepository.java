@@ -218,7 +218,7 @@ public class LivroRepository implements ILivroRepository {
 		List<Livro> livros = new ArrayList<>();
 
 		String sql = "SELECT id_item, titulo, autor, editora, ano_publicacao, genero, idioma, numero_pagina, "
-				+ "isbn FROM item_acervo INNER JOIN livro ON item_acervo.id_item = livro.id_livro ";
+				+ "isbn FROM item_acervo INNER JOIN livro ON item_acervo.id_item = livro.id_livro ORDER BY titulo";
 
 		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
