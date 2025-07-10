@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -110,7 +113,27 @@ public class JCardLivro extends JPanel {
 			lblNumPagina.setText("Número de páginas: " + livro.getNumeroPaginas());
 
 			
-			//Inserir lógica de carregar imagem
+			String pathAppBiblioteca = System.getenv("APPDATA");
+			File pastaCapas = new File(pathAppBiblioteca, "Biblioteca/Capas");
+			
+			String[] extensoes = { "png", "jpg", "jpeg" };
+			
+			for(String extensao : extensoes) {
+				File capa = new File (pastaCapas, livro.getIdItem() + "." + extensao);
+				if(capa.exists()) {
+					ImageIcon imageIco = new ImageIcon(capa.getAbsolutePath());
+					
+					int widthLblCapaLivro = lblCapaLivro.getWidth();
+					int heightLblCapaLivro = lblCapaLivro.getHeight();
+					
+					Image originalImage = imageIco.getImage();
+					Image redimensionar = originalImage.getScaledInstance(widthLblCapaLivro, heightLblCapaLivro, Image.SCALE_SMOOTH);
+					ImageIcon imagemCapa = new ImageIcon(redimensionar);
+					
+					lblCapaLivro.setIcon(imagemCapa);
+					lblCapaLivro.setText("");
+				}
+			}
 			
 		} else {
 			
