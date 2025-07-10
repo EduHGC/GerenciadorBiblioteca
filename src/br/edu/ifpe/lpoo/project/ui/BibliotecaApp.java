@@ -120,6 +120,7 @@ public class BibliotecaApp extends JFrame {
 		case "Livros":
 			abas.addTab("Cadastrar Livro", new JPainelCadastroLivro());
 			abas.addTab("Lista de Livros", new JPanelListaLivros());
+			abas.addTab("Atualizar informações", new JPainelAtualizarLivro());
 //	            abas.addTab("Consultar Livros", new PainelConsultaLivro());
 			break;
 //	        case "Periódicos":
