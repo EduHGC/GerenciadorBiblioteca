@@ -27,7 +27,7 @@ public class LivroController {
 		this(new LivroRepository(), new ExemplarRepository());
 	}
 
-	public void cadastarLivro(String titulo, String autor, String editora, String anoPublicacao, String genero,
+	public int cadastarLivro(String titulo, String autor, String editora, String anoPublicacao, String genero,
 			String idioma, String numeroPaginas, String isbn, String quantidadeExemplares) throws BusinessException {
 
 		validarCampo(titulo, "Título");
@@ -84,10 +84,12 @@ public class LivroController {
 		}
 
 		Livro livro = new Livro(titulo, autor, editora, parseoAnoPublicacao, genero, idioma, parseoNumeroPaginas, isbn);
-
+		
+		int idLivro;
+		
 		try {
 
-			int idLivro;
+			
 			if (!livroRepository.existe(livro)) {
 				idLivro = livroRepository.inserir(livro);
 			} else {
@@ -102,6 +104,8 @@ public class LivroController {
 		} catch (ExceptionDb e) {
 			throw new BusinessException("Erro no banco de dados: " + e.getMessage());
 		}
+		
+		return idLivro;
 	}
 	
 	

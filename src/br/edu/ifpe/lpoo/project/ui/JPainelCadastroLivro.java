@@ -1,5 +1,6 @@
 package br.edu.ifpe.lpoo.project.ui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -8,7 +9,9 @@ import br.edu.ifpe.lpoo.project.exception.BusinessException;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 
 public class JPainelCadastroLivro extends JPanel {
@@ -156,11 +159,37 @@ public class JPainelCadastroLivro extends JPanel {
 				String idioma = textFieldIdioma.getText();
 				String numPaginas = textFieldNumPaginas.getText();
 				String qtdExemplares = textFieldQtdExemplares.getText();
-
+				
 				try {
+					
 					LivroController livroController = new LivroController();
-					livroController.cadastarLivro(titulo, autor, editora, anoPubli, genero, idioma, numPaginas, isbn,
+					int idLivro = livroController.cadastarLivro(titulo, autor, editora, anoPubli, genero, idioma, numPaginas, isbn,
 							qtdExemplares);
+					
+					//Salvando imagem inicio
+					String pathAppBiblioteca = System.getenv("APPDATA");
+					File pastaCapas = new File(pathAppBiblioteca, "Biblioteca/Capas");
+					
+					if(!pastaCapas.exists()) {
+						pastaCapas.mkdirs();
+					}
+					
+					if(arquivoCapaSelecionada != null) {
+						String nomeOriginal = arquivoCapaSelecionada.getName();
+						String extensao = nomeOriginal.substring(nomeOriginal.lastIndexOf(".") + 1).toLowerCase();
+						String nomeArquivoImagem = idLivro + "." + extensao;
+						
+						File destino = new File(pastaCapas, nomeArquivoImagem);
+						BufferedImage imagem = ImageIO.read(arquivoCapaSelecionada);
+						if(extensao.equals("jpg") || extensao.equals("jpeg") || extensao.equals("png")) {
+							ImageIO.write(imagem, extensao, destino);
+						}else {
+							throw new IOException("Formato de imagem não suportado para gravação: " + extensao);
+						}
+						
+					}
+					//Salvando imagem fim
+					
 					JOptionPane.showMessageDialog(JPainelCadastroLivro.this,
 							"O livro foi cadastrado com sucesso em nosso sistema.", "Cadastro Concluído",
 							JOptionPane.INFORMATION_MESSAGE);
@@ -168,6 +197,9 @@ public class JPainelCadastroLivro extends JPanel {
 
 				} catch (BusinessException e1) {
 					JOptionPane.showMessageDialog(JPainelCadastroLivro.this, e1.getMessage(), "Erro",
+							JOptionPane.ERROR_MESSAGE);
+				}catch(IOException e2) {
+					JOptionPane.showMessageDialog(JPainelCadastroLivro.this, "Erro ao salvar a imagem da capa: " + e2.getMessage() , "Erro",
 							JOptionPane.ERROR_MESSAGE);
 				}
 
@@ -195,8 +227,7 @@ public class JPainelCadastroLivro extends JPanel {
 		// Selecionar a Capa
 		btnSelecionarCapa.addActionListener(e -> {
 			JFileChooser fileChooser = new JFileChooser();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos de Imagem", "jpg", "jpeg", "png",
-					"gif");
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos de Imagem", "jpg", "jpeg", "png");
 			fileChooser.setFileFilter(filter);
 
 			int resultado = fileChooser.showOpenDialog(this);
@@ -232,9 +263,9 @@ public class JPainelCadastroLivro extends JPanel {
 		// Inserir imagem fim
 	}
 
-	private File getArquivoCapaSelecionada() {
-		return arquivoCapaSelecionada;
-	}
+//	private File getArquivoCapaSelecionada() {
+//		return arquivoCapaSelecionada;
+//	}
 
 	private void limparCampos() {
 		textFieldISBN.setText("");
