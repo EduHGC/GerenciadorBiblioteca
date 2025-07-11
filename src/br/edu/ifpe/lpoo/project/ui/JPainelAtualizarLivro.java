@@ -1,5 +1,6 @@
 package br.edu.ifpe.lpoo.project.ui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -9,10 +10,12 @@ import br.edu.ifpe.lpoo.project.exception.BusinessException;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 public class JPainelAtualizarLivro extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -33,6 +36,8 @@ public class JPainelAtualizarLivro extends JPanel {
 	private JLabel idLivro;
 	private JButton btnBuscarLivro;
 	private Livro livro;
+	private boolean imagemCarregada = false;
+	private boolean atualizarCapa = false;
 
 	public JPainelAtualizarLivro() {
 
@@ -182,7 +187,29 @@ public class JPainelAtualizarLivro extends JPanel {
 					textFieldGenero.setText(livro.getGenero());
 					textFieldIdioma.setText(livro.getIdioma());
 					textFieldNumPaginas.setText(String.valueOf(livro.getNumeroPaginas()));
-
+					
+					String pathAppBiblioteca = System.getenv("APPDATA");
+					File pastaCapas = new File(pathAppBiblioteca, "Biblioteca/Capas");
+					
+					String[] extensoes = { "png", "jpg", "jpeg" };
+					
+					for(String extensao : extensoes) {
+						File capa = new File (pastaCapas, livro.getIdItem() + "." + extensao);
+						if(capa.exists()) {
+							ImageIcon imageIco = new ImageIcon(capa.getAbsolutePath());
+							
+							int widthLblCapaLivro = lblCapaLivro.getWidth();
+							int heightLblCapaLivro = lblCapaLivro.getHeight();
+							
+							Image originalImage = imageIco.getImage();
+							Image redimensionar = originalImage.getScaledInstance(widthLblCapaLivro, heightLblCapaLivro, Image.SCALE_SMOOTH);
+							ImageIcon imagemCapa = new ImageIcon(redimensionar);
+							
+							lblCapaLivro.setIcon(imagemCapa);
+							lblCapaLivro.setText("");
+						}
+					}
+					
 				} catch (BusinessException e1) {
 					JOptionPane.showMessageDialog(JPainelAtualizarLivro.this, e1.getMessage(), "Erro",
 							JOptionPane.ERROR_MESSAGE);
@@ -235,6 +262,46 @@ public class JPainelAtualizarLivro extends JPanel {
 					LivroController livroController = new LivroController();
 					
 					livroController.atualizarLivro(idLivro, titulo, autor, editora, anoPubli, genero, idioma, numPaginas, isbn);
+					
+					String pathAppBiblioteca = System.getenv("APPDATA");
+					File pastaCapas = new File(pathAppBiblioteca, "Biblioteca/Capas");
+					
+					if(!pastaCapas.exists()) {
+						pastaCapas.mkdirs();
+					}
+					
+					if(atualizarCapa) {
+						
+						String nomeOriginal = arquivoCapaSelecionada.getName();
+						String extensao = nomeOriginal.substring(nomeOriginal.lastIndexOf(".") + 1);
+						String nomeCapaTemp = livro.getIdItem() + "temp" + "." + extensao;
+						String nomeCapa = livro.getIdItem() + ".";
+						
+						File destino = new File(pastaCapas, nomeCapaTemp);
+						BufferedImage imagem = ImageIO.read(arquivoCapaSelecionada);
+						
+						if(extensao.equals("jpg") || extensao.equals("jpeg") || extensao.equals("png")) {
+							ImageIO.write(imagem, extensao, destino);
+						}else {
+							throw new IOException("Formato de imagem não suportado para gravação: " + extensao);
+						}
+						
+						if(imagemCarregada) {
+							String[] extensoes = {"jpg", "jpeg", "png"};
+							for(String ext : extensoes) {
+								File capaAntiga = new File(pastaCapas, nomeCapa + ext);
+								if(capaAntiga.exists()) {
+									capaAntiga.delete();
+								}
+							}
+						}
+						
+						File novaCapa = new File(pastaCapas, nomeCapa + extensao);
+						destino.renameTo(novaCapa);
+						imagemCarregada = false;
+						atualizarCapa = false;
+					}
+				
 					JOptionPane.showMessageDialog(JPainelAtualizarLivro.this,
 							"O livro foi atualizado com sucesso em nosso sistema.", "Atualização Concluída",
 							JOptionPane.INFORMATION_MESSAGE);
@@ -242,6 +309,9 @@ public class JPainelAtualizarLivro extends JPanel {
 
 				} catch (BusinessException e1) {
 					JOptionPane.showMessageDialog(JPainelAtualizarLivro.this, e1.getMessage(), "Erro",
+							JOptionPane.ERROR_MESSAGE);
+				}catch(IOException e2) {
+					JOptionPane.showMessageDialog(JPainelAtualizarLivro.this, "Erro ao salvar a imagem da capa: " + e2.getMessage() , "Erro",
 							JOptionPane.ERROR_MESSAGE);
 				}
 
@@ -254,7 +324,12 @@ public class JPainelAtualizarLivro extends JPanel {
 		add(btnAtualizar);
 
 		// Inserir imagem inicio
-
+		lblCapa = new JLabel("Capa do livro");
+		lblCapa.setFont(new Font("Arial Black", Font.BOLD, 13));
+		lblCapa.setBounds(500, 20, 100, 20);
+		add(lblCapa);
+		arquivoCapaSelecionada = null;
+		
 		lblCapaLivro = new JLabel("Pré-visualização da Capa");
 		lblCapaLivro.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCapaLivro.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
@@ -268,6 +343,12 @@ public class JPainelAtualizarLivro extends JPanel {
 
 		// Selecionar a Capa
 		btnSelecionarCapa.addActionListener(e -> {
+			ImageIcon existeImagem = (ImageIcon) lblCapaLivro.getIcon();
+			
+			if(existeImagem != null) {
+				imagemCarregada = true;
+			}
+			
 			JFileChooser fileChooser = new JFileChooser();
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos de Imagem", "jpg", "jpeg", "png",
 					"gif");
@@ -280,34 +361,25 @@ public class JPainelAtualizarLivro extends JPanel {
 				try {
 
 					ImageIcon imagemCapa = new ImageIcon(arquivoCapaSelecionada.getAbsolutePath());
-
 					int labelWidth = lblCapaLivro.getWidth();
 					int labelHeight = lblCapaLivro.getHeight();
-
 					Image originalImage = imagemCapa.getImage();
 					Image scaledImage = originalImage.getScaledInstance(labelWidth, labelHeight, Image.SCALE_SMOOTH);
 					ImageIcon scaledIcon = new ImageIcon(scaledImage);
-
+					
+					lblCapaLivro.setIcon(null);
 					lblCapaLivro.setIcon(scaledIcon);
 					lblCapaLivro.setText("");
+					atualizarCapa = true;
+					
 				} catch (Exception ex) {
 					lblCapaLivro.setText("Erro ao carregar imagem!");
 					lblCapaLivro.setIcon(null);
-
-					lblCapa = new JLabel("Capa do livro");
-					lblCapa.setFont(new Font("Arial Black", Font.BOLD, 13));
-					lblCapa.setBounds(500, 20, 100, 20);
-					add(lblCapa);
-					arquivoCapaSelecionada = null;
 					ex.printStackTrace();
 				}
 			}
 		});
 		// Inserir imagem fim
-	}
-
-	private File getArquivoCapaSelecionada() {
-		return arquivoCapaSelecionada;
 	}
 
 	private void limparCampos() {
