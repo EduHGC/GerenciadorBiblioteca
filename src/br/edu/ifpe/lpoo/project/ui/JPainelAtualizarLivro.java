@@ -217,7 +217,6 @@ public class JPainelAtualizarLivro extends JPanel {
 			}
 		});
 		btnBuscarLivro.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnBuscarLivro.setBackground(new Color(240, 240, 240));
 		btnBuscarLivro.setBounds(207, 40, 120, 40);
 		add(btnBuscarLivro);
 
@@ -319,7 +318,6 @@ public class JPainelAtualizarLivro extends JPanel {
 		});
 
 		btnAtualizar.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnAtualizar.setBackground(new Color(240, 240, 240));
 		btnAtualizar.setBounds(40, 650, 400, 40);
 		add(btnAtualizar);
 

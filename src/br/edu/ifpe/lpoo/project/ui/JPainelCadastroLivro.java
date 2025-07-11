@@ -207,7 +207,6 @@ public class JPainelCadastroLivro extends JPanel {
 		});
 
 		btnCadastrarLivro.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnCadastrarLivro.setBackground(new Color(240, 240, 240));
 		btnCadastrarLivro.setBounds(40, 650, 400, 40);
 		add(btnCadastrarLivro);
 
