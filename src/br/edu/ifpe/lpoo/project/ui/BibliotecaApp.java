@@ -72,6 +72,11 @@ public class BibliotecaApp extends JFrame {
 		painelEsquerdo.add(btnPeriodicos);
 
 		JButton btnExemplar = new JButton("Exemplares");
+		btnExemplar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarSecao("Exemplares");
+			}
+		});
 		btnExemplar.setFont(new Font("Arial Black", Font.BOLD, 20));
 		btnExemplar.setBounds(0, 200, 200, 100);
 		painelEsquerdo.add(btnExemplar);
@@ -118,10 +123,10 @@ public class BibliotecaApp extends JFrame {
 //	            abas.addTab("Cadastrar Periódico", new PainelCadastroPeriodico());
 //	            abas.addTab("Consultar Periódicos", new PainelConsultaPeriodico());
 //	            break;
-//	        case "Exemplares":
-//	            abas.addTab("Adicionar Exemplar", new PainelAdicionarExemplar());
+	        case "Exemplares":
+	            abas.addTab("Adicionar Exemplar", new JPanelCadastroExemplar());
 //	            abas.addTab("Consultar Exemplares", new PainelConsultaExemplar());
-//	            break;
+	            break;
 //	        case "Reservas":
 //	            abas.addTab("Registrar Reserva", new PainelRegistroReserva());
 //	            abas.addTab("Consultar Reservas", new PainelConsultaReserva());
