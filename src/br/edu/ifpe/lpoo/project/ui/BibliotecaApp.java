@@ -51,16 +51,6 @@ public class BibliotecaApp extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		addWindowStateListener(e -> {
-			int oldState = e.getOldState();
-			int newState = e.getNewState();
-
-			if ((oldState & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH
-					&& (newState & JFrame.NORMAL) == JFrame.NORMAL) {
-				setBounds(100, 10, 1300, 800);
-			}
-		});
-
 		// Lado esquerdo
 		JPanel painelEsquerdo = new JPanel();
 		painelEsquerdo.setBackground(new Color(240, 240, 255));

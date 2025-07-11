@@ -36,7 +36,7 @@ public class JPanelListaLivros extends JPanel {
 		});
 		livroController = new LivroController();
 
-		JLabel titulo = new JLabel("Lista de Livros");
+		JLabel titulo = new JLabel("Catálogo de livros");
 		titulo.setHorizontalAlignment(SwingConstants.CENTER);
 		titulo.setFont(new Font("Arial Black", Font.BOLD, 20));
 		add(titulo, BorderLayout.NORTH);

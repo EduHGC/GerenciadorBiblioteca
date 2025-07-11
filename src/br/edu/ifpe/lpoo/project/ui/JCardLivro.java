@@ -28,7 +28,7 @@ public class JCardLivro extends JPanel {
 
 		setLayout(null);
 		setBorder(new LineBorder(Color.BLACK, 3));
-		setPreferredSize(new Dimension(595, 350));
+		setPreferredSize(new Dimension(595, 374));
 
 		JPanel panelTitulo = new JPanel();
 		panelTitulo.setBounds(0, 0, 595, 40);
@@ -65,46 +65,54 @@ public class JCardLivro extends JPanel {
 		lblAutor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblAutor.setVerticalAlignment(SwingConstants.TOP);
 		lblAutor.setHorizontalAlignment(SwingConstants.LEFT);
-		lblAutor.setBounds(10, 88, 280, 40);
+		lblAutor.setBounds(10, 128, 280, 40);
 		add(lblAutor);
 
 		JLabel lblEditora = new JLabel("Editora: ");
 		lblEditora.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblEditora.setVerticalAlignment(SwingConstants.TOP);
 		lblEditora.setHorizontalAlignment(SwingConstants.LEFT);
-		lblEditora.setBounds(10, 128, 280, 40);
+		lblEditora.setBounds(10, 168, 280, 40);
 		add(lblEditora);
 
 		JLabel lblAnoPublic = new JLabel("Ano de publicação: ");
 		lblAnoPublic.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblAnoPublic.setVerticalAlignment(SwingConstants.TOP);
 		lblAnoPublic.setHorizontalAlignment(SwingConstants.LEFT);
-		lblAnoPublic.setBounds(10, 168, 280, 40);
+		lblAnoPublic.setBounds(10, 208, 280, 40);
 		add(lblAnoPublic);
 
 		JLabel lblGenero = new JLabel("Gênero: ");
 		lblGenero.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblGenero.setVerticalAlignment(SwingConstants.TOP);
 		lblGenero.setHorizontalAlignment(SwingConstants.LEFT);
-		lblGenero.setBounds(10, 208, 280, 40);
+		lblGenero.setBounds(10, 248, 280, 40);
 		add(lblGenero);
 
 		JLabel lblIdioma = new JLabel("Idioma: ");
 		lblIdioma.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblIdioma.setVerticalAlignment(SwingConstants.TOP);
 		lblIdioma.setHorizontalAlignment(SwingConstants.LEFT);
-		lblIdioma.setBounds(10, 248, 280, 40);
+		lblIdioma.setBounds(10, 288, 280, 40);
 		add(lblIdioma);
 
 		JLabel lblNumPagina = new JLabel("Número de páginas: ");
 		lblNumPagina.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblNumPagina.setVerticalAlignment(SwingConstants.TOP);
 		lblNumPagina.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNumPagina.setBounds(10, 288, 280, 40);
+		lblNumPagina.setBounds(10, 328, 280, 40);
 		add(lblNumPagina);
+		
+		JLabel lblIdLivro = new JLabel("Identificador:");
+		lblIdLivro.setVerticalAlignment(SwingConstants.TOP);
+		lblIdLivro.setHorizontalAlignment(SwingConstants.LEFT);
+		lblIdLivro.setFont(new Font("Arial Black", Font.BOLD, 14));
+		lblIdLivro.setBounds(10, 88, 280, 40);
+		add(lblIdLivro);
 		
 		if (livro != null) {
 			lblTitulo.setText(livro.getTitulo());
+			lblIdLivro.setText("Identificador: " + livro.getIdItem());
 			lblAutor.setText("Autor: " + livro.getAutor());
 			lblEditora.setText("Editora: " + livro.getEditora());
 			lblAnoPublic.setText("Ano de publicação: " + livro.getAnoPublicacao());
@@ -138,6 +146,7 @@ public class JCardLivro extends JPanel {
 		} else {
 			
 			lblTitulo.setText("Livro Não Encontrado");
+			lblIdLivro.setText("Identificador: N/A");
 			lblAutor.setText("Autor: N/A");
 			lblEditora.setText("Editora: N/A");
 			lblAnoPublic.setText("Ano de publicação: N/A");
