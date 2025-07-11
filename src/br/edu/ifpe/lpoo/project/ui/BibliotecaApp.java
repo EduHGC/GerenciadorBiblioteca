@@ -14,6 +14,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
+
+import br.edu.ifpe.lpoo.project.ui.acervo.JPainelAtualizarLivro;
+import br.edu.ifpe.lpoo.project.ui.acervo.JPainelCadastroLivro;
+import br.edu.ifpe.lpoo.project.ui.acervo.JPanelBuscarLivros;
+import br.edu.ifpe.lpoo.project.ui.acervo.JPanelCadastroExemplar;
+import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaLivros;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

@@ -1,10 +1,9 @@
-package br.edu.ifpe.lpoo.project.ui;
+package br.edu.ifpe.lpoo.project.ui.acervo;
 
 import javax.swing.*;
 
 import br.edu.ifpe.lpoo.project.business.acervo.ExemplarController;
 import br.edu.ifpe.lpoo.project.business.acervo.LivroController;
-import br.edu.ifpe.lpoo.project.data.implement.ExemplarRepository;
 import br.edu.ifpe.lpoo.project.entities.acervo.Livro;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
 

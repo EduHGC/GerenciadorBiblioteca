@@ -1,4 +1,4 @@
-package br.edu.ifpe.lpoo.project.ui;
+package br.edu.ifpe.lpoo.project.ui.acervo;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

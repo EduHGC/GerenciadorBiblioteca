@@ -1,4 +1,4 @@
-package br.edu.ifpe.lpoo.project.ui;
+package br.edu.ifpe.lpoo.project.ui.acervo;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
