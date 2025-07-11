@@ -111,6 +111,7 @@ public class BibliotecaApp extends JFrame {
 			abas.addTab("Cadastrar Livro", new JPainelCadastroLivro());
 			abas.addTab("Lista de Livros", new JPanelListaLivros());
 			abas.addTab("Atualizar informações", new JPainelAtualizarLivro());
+			abas.addTab("Buscar Livros", new JPanelBuscarLivros());
 //	            abas.addTab("Consultar Livros", new PainelConsultaLivro());
 			break;
 //	        case "Periódicos":

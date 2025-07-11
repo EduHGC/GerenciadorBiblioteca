@@ -228,6 +228,26 @@ public class LivroController {
 		}
 	}
 	
+	public List<Livro> buscarPorTermo(String termo){
+		
+		validarCampo(termo, "Palavra-Chave");
+		
+		List<Livro> livros = new ArrayList<Livro>();
+		
+		try {
+			livros = livroRepository.buscarPorTermo(termo);
+			
+		}catch(ExceptionDb e) {
+			throw new BusinessException("Erro: " + e.getMessage());
+		}
+		
+		if(livros.isEmpty()) {
+			throw new BusinessException("Não existe livros cadastrados");
+		}
+		
+		return livros;	
+	}
+	
 	private void validarCampo(String valor, String campo) throws BusinessException {
 		if (valor == null || valor.isBlank()) {
 			throw new BusinessException(campo + " não pode ser nulo ou vazio!");
