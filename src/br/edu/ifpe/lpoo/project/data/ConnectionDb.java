@@ -13,7 +13,7 @@ public class ConnectionDb {
 	public static Connection getConnection() throws ExceptionDb {
 
 		try {
-			return DriverManager.getConnection("jdbc:mysql://localhost:3306/testelivro", "root", "root");
+			return DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca", "root", "root");
 		} catch (SQLException e) {
 			throw new ExceptionDb("Falha na conexão com o banco de dados. Causado por: " + e.getMessage());
 		}

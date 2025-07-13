@@ -15,9 +15,10 @@ public class Usuario {
 	private TipoUsuario tipoUsuario;
 	private StatusUsuario statusUsuario;
 	private String instituicao;
+	private double debito;
 
 	public Usuario(String cpf, String matricula, String nome, String email, String telefone, String departamentoCurso,
-			TipoUsuario tipoUsuario, StatusUsuario statusUsuario, String instituicao) {
+			TipoUsuario tipoUsuario, StatusUsuario statusUsuario, String instituicao, double debito) {
 		super();
 		this.cpf = cpf;
 		this.matricula = matricula;
@@ -28,6 +29,7 @@ public class Usuario {
 		this.tipoUsuario = tipoUsuario;
 		this.statusUsuario = statusUsuario;
 		this.instituicao = instituicao;
+		this.debito = debito;
 	}
 
 	public int getIdUsuario() {
@@ -110,4 +112,11 @@ public class Usuario {
 		this.instituicao = instituicao;
 	}
 
+	public double getDebito() {
+		return debito;
+	}
+
+	public void setDebito(double debito) {
+		this.debito = debito;
+	}
 }
