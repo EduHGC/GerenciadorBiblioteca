@@ -108,5 +108,49 @@ public class ExemplarController {
 
 		return exemplares;
 	}
+	
+	public Exemplar buscarExemplarId(String idExemplar) {
+		
+		if (idExemplar == null || idExemplar.isBlank()) {
+			throw new BusinessException("O Id não pode ser nulo ou vazio!");
+		}
 
+		int parseIdExemplar;
+		try {
+			parseIdExemplar = Integer.parseInt(idExemplar);
+		} catch (NumberFormatException e) {
+			throw new BusinessException("O id precisa ser numérico para fazer a busca.");
+		}
+		
+		Exemplar exemplar = null;
+		
+		try {
+			ExemplarRepository exemplarRepository = new ExemplarRepository();
+			exemplar = exemplarRepository.buscarPorId(parseIdExemplar);
+		} catch (ExceptionDb e) {
+			throw new BusinessException("Erro: " + e.getMessage());
+		}
+		
+		if(exemplar == null) {
+			throw new BusinessException("Exemplar não está cadastrado no sistema");
+		}
+		
+		return exemplar;
+	}
+	
+	
+	public void atualizarStatus(Exemplar exemplar) {
+		
+		if(exemplar == null) {
+			throw new BusinessException("Exemplar não está cadastrado no sistema");
+		}
+		
+		try {
+			ExemplarRepository exemplarRepository = new ExemplarRepository();
+			exemplarRepository.atualizar(exemplar);
+		} catch (ExceptionDb e) {
+			throw new BusinessException("Erro: " + e.getMessage());
+		}
+		
+	}
 }

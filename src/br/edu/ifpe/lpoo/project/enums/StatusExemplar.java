@@ -3,7 +3,7 @@ package br.edu.ifpe.lpoo.project.enums;
 public enum StatusExemplar {
 
 	DISPONIVEL("Disponível"), EMPRESTADO("Emprestado"), RESERVADO("Reservado"), DANIFICADO("Danificado"),
-	EXTRAVIADO("Extraviado"), EM_MANUTENCAO("Em Manutenção");
+	EXTRAVIADO("Extraviado"), MANUTENCAO("Manutenção");
 
 	private final String STATUS;
 

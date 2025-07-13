@@ -1,26 +1,42 @@
 package br.edu.ifpe.lpoo.project.ui.acervo;
 
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import br.edu.ifpe.lpoo.project.business.acervo.ExemplarController;
 import br.edu.ifpe.lpoo.project.business.acervo.LivroController;
+import br.edu.ifpe.lpoo.project.entities.acervo.Exemplar;
 import br.edu.ifpe.lpoo.project.entities.acervo.Livro;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
 
-import java.awt.*;
-import java.io.File;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import javax.swing.JScrollPane;
 
-public class JPanelCadastroExemplar extends JPanel {
+public class JPanelListaExemplares extends JPanel {
+
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldIdItem;
-	private JLabel lblCapa;
-	private JLabel lblCapaLivro;
 	private JButton btnBuscarLivro;
-	private Livro livro;
+	private JLabel lblCapaLivro;
+	private JLabel lblCapa;
 	private JLabel lblValorIsbn;
 	private JLabel lblValorTitulo;
 	private JLabel lblValorAutor;
@@ -29,16 +45,14 @@ public class JPanelCadastroExemplar extends JPanel {
 	private JLabel lblValorGenero;
 	private JLabel lblValorIdioma;
 	private JLabel lblValorNumPaginas;
-	private JLabel lblNumExemplar;
-	private JTextField textFieldQtdExemplar;
-	private JButton btnCadastrar;
-	private JLabel lblQtdExemplares;
-	private JLabel lblValorQtdExemplares;
-
-	public JPanelCadastroExemplar() {
-
-		setLayout(null);
+	private JScrollPane scrollPane;
+	private JLabel lblListaExemplares;
+	private JPanel painelExemplares;
+	
+	public JPanelListaExemplares() {
 		
+		setLayout(null);
+
 		JLabel lblIsbn = new JLabel("ISBN");
 		lblIsbn.setFont(new Font("Arial Black", Font.BOLD, 13));
 		lblIsbn.setBounds(40, 90, 100, 20);
@@ -90,15 +104,14 @@ public class JPanelCadastroExemplar extends JPanel {
 			public void keyPressed(KeyEvent e) {
 
 				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-					if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-						String novoId = textFieldIdItem.getText();
-
-						limparCampos();
-
-						textFieldIdItem.setText(novoId);
-						textFieldQtdExemplar.setEditable(false);
-						textFieldQtdExemplar.setEnabled(false);
-					}
+		
+					painelExemplares.removeAll();
+					painelExemplares.revalidate();
+					painelExemplares.repaint();
+					
+					String novoId = textFieldIdItem.getText();
+					limparCampos();
+					textFieldIdItem.setText(novoId);
 				}
 			}
 		});
@@ -106,13 +119,14 @@ public class JPanelCadastroExemplar extends JPanel {
 		textFieldIdItem.setColumns(10);
 		textFieldIdItem.setBounds(40, 40, 155, 40);
 		add(textFieldIdItem);
-
+		
 		btnBuscarLivro = new JButton("Buscar");
 		btnBuscarLivro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				
+				
 				if (textFieldIdItem.getText().trim().isEmpty()) {
-					JOptionPane.showMessageDialog(JPanelCadastroExemplar.this, "Insira um id válido", "Id Inválido",
+					JOptionPane.showMessageDialog(JPanelListaExemplares.this, "Insira um id válido", "Id Inválido",
 							JOptionPane.WARNING_MESSAGE);
 					return;
 				}
@@ -122,13 +136,9 @@ public class JPanelCadastroExemplar extends JPanel {
 
 					LivroController livroCotroller = new LivroController();
 
-					livro = livroCotroller.buscarLivroId(idLivro);
+					Livro livro = livroCotroller.buscarLivroId(idLivro);
 
 					if (livro != null) {
-						
-						ExemplarController exemplarController = new ExemplarController();
-						int quantidadeExemplar = exemplarController.listarExemplaresIdItem(livro.getIdItem()).size();
-						
 						lblValorIsbn.setText(livro.getIsbn());
 						lblValorTitulo.setText(livro.getTitulo());
 						lblValorAutor.setText(livro.getAutor());
@@ -137,10 +147,6 @@ public class JPanelCadastroExemplar extends JPanel {
 						lblValorGenero.setText(livro.getGenero());
 						lblValorIdioma.setText(livro.getIdioma());
 						lblValorNumPaginas.setText(String.valueOf(livro.getNumeroPaginas()));
-						lblValorQtdExemplares.setText(String.valueOf(quantidadeExemplar));
-						textFieldQtdExemplar.setEditable(true);
-						textFieldQtdExemplar.setEnabled(true);
-					
 					}
 
 					String pathAppBiblioteca = System.getenv("APPDATA");
@@ -163,32 +169,40 @@ public class JPanelCadastroExemplar extends JPanel {
 
 							lblCapaLivro.setIcon(imagemCapa);
 							lblCapaLivro.setText("");
+							
 						}
+						
+						ExemplarController exemplarController = new ExemplarController();
+						
+						List<Exemplar> exemplares = new ArrayList<Exemplar>();
+						
+						exemplares = exemplarController.listarExemplaresIdItem(livro.getIdItem());
+						
+						carregarExemplares(exemplares);
 					}
 					
-					
 				} catch (BusinessException e1) {
-					JOptionPane.showMessageDialog(JPanelCadastroExemplar.this, e1.getMessage(), "Erro",
+					JOptionPane.showMessageDialog(JPanelListaExemplares.this, e1.getMessage(), "Erro",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 		btnBuscarLivro.setFont(new Font("Arial Black", Font.BOLD, 15));
 		btnBuscarLivro.setBounds(207, 40, 120, 40);
 		add(btnBuscarLivro);
-
+		
 		lblCapa = new JLabel("Capa do livro");
 		lblCapa.setFont(new Font("Arial Black", Font.BOLD, 13));
 		lblCapa.setBounds(574, 19, 100, 20);
 		add(lblCapa);
 
 		lblCapaLivro = new JLabel("Pré-visualização da Capa");
+		lblCapaLivro.setFont(new Font("Arial Black", Font.BOLD, 15));
 		lblCapaLivro.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCapaLivro.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		lblCapaLivro.setBounds(470, 40, 316, 352);
+		lblCapaLivro.setBounds(414, 40, 390, 460);
 		add(lblCapaLivro);
-
+		
 		lblValorIsbn = new JLabel("");
 		lblValorIsbn.setFont(new Font("Arial Black", Font.BOLD, 13));
 		lblValorIsbn.setBounds(40, 110, 410, 20);
@@ -228,67 +242,40 @@ public class JPanelCadastroExemplar extends JPanel {
 		lblValorNumPaginas.setFont(new Font("Arial Black", Font.BOLD, 13));
 		lblValorNumPaginas.setBounds(40, 460, 401, 20);
 		add(lblValorNumPaginas);
-
-		lblNumExemplar = new JLabel("Quantidade de novos exemplares");
-		lblNumExemplar.setFont(new Font("Arial Black", Font.BOLD, 13));
-		lblNumExemplar.setBounds(40, 555, 298, 20);
-		add(lblNumExemplar);
-
-		textFieldQtdExemplar = new JTextField();
-		textFieldQtdExemplar.setEditable(false);
-		textFieldQtdExemplar.setEnabled(false);
-		textFieldQtdExemplar.setFont(new Font("Arial Black", Font.BOLD, 15));
-		textFieldQtdExemplar.setBounds(40, 575, 270, 40);
-		add(textFieldQtdExemplar);
-		textFieldQtdExemplar.setColumns(10);
-
-		btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				if (textFieldQtdExemplar.getText().trim().isEmpty()) {
-
-					JOptionPane.showMessageDialog(JPanelCadastroExemplar.this, "Insira um id válido", "Id Inválido",
-							JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				
-
-				try {
-					String idLivro = textFieldIdItem.getText();
-					String quantidade = textFieldQtdExemplar.getText();
-					ExemplarController exemplarController = new ExemplarController();
-
-					exemplarController.cadastarExemplar(idLivro, quantidade);
-					
-					JOptionPane.showMessageDialog(JPanelCadastroExemplar.this,
-							"Foi cadastrado a quantidade de exemplar com sucesso.", "Cadastro Concluído",
-							JOptionPane.INFORMATION_MESSAGE);
-					
-					limparCampos();
-					
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(JPanelCadastroExemplar.this, e1.getMessage(), "Erro",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		btnCadastrar.setFont(new Font("Arial Black", Font.BOLD, 15));
-		btnCadastrar.setBounds(40, 625, 270, 40);
-		add(btnCadastrar);
 		
-		lblQtdExemplares = new JLabel("Quantidade de exemplares");
-		lblQtdExemplares.setFont(new Font("Arial Black", Font.BOLD, 13));
-		lblQtdExemplares.setBounds(40, 490, 214, 20);
-		add(lblQtdExemplares);
+		painelExemplares = new JPanel();
+		painelExemplares.setLayout(new BoxLayout(painelExemplares, BoxLayout.Y_AXIS));
 		
-		lblValorQtdExemplares = new JLabel("");
-		lblValorQtdExemplares.setFont(new Font("Arial Black", Font.BOLD, 13));
-		lblValorQtdExemplares.setBounds(40, 510, 401, 20);
-		add(lblValorQtdExemplares);
-
+		scrollPane = new JScrollPane(painelExemplares);
+		scrollPane.setBounds(840, 40, 440, 530);
+		add(scrollPane);
+		
+		
+		lblListaExemplares = new JLabel("Lista exemplares");
+		lblListaExemplares.setFont(new Font("Arial Black", Font.BOLD, 13));
+		lblListaExemplares.setBounds(1005, 19, 140, 20);
+		add(lblListaExemplares);
 	}
-
+	
+	private void carregarExemplares(List<Exemplar> exemplares) {
+		
+		painelExemplares.removeAll();
+		
+		if(exemplares.isEmpty()) {
+			JOptionPane.showMessageDialog(JPanelListaExemplares.this, "Não esxite exemplar cadastrado", "Atenção",
+					JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		
+		for(Exemplar exemplar : exemplares) {
+			painelExemplares.add(new JPanelCardExemplar(exemplar));
+			 painelExemplares.add(Box.createVerticalStrut(10));
+		}
+		
+		painelExemplares.revalidate();
+		painelExemplares.repaint();
+	}
+	
 	private void limparCampos() {
 		lblValorIsbn.setText("");
 		lblValorTitulo.setText("");
@@ -298,13 +285,7 @@ public class JPanelCadastroExemplar extends JPanel {
 		lblValorGenero.setText("");
 		lblValorIdioma.setText("");
 		lblValorNumPaginas.setText("");
-		lblValorQtdExemplares.setText("");
-		textFieldIdItem.setText("");
-		textFieldQtdExemplar.setText("");
-		textFieldQtdExemplar.setEditable(false);
-		textFieldQtdExemplar.setEnabled(false);
 		lblCapaLivro.setIcon(null);
 		lblCapaLivro.setText("Pré-visualização da Capa");
 	}
-
 }

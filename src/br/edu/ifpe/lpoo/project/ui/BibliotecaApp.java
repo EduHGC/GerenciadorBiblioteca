@@ -17,8 +17,10 @@ import javax.swing.border.EmptyBorder;
 
 import br.edu.ifpe.lpoo.project.ui.acervo.JPainelAtualizarLivro;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPainelCadastroLivro;
+import br.edu.ifpe.lpoo.project.ui.acervo.JPanelAtualizarStatus;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelBuscarLivros;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelCadastroExemplar;
+import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaExemplares;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaLivros;
 
 import java.awt.event.ActionListener;
@@ -126,13 +128,10 @@ public class BibliotecaApp extends JFrame {
 			abas.addTab("Buscar Livros", new JPanelBuscarLivros());
 //	            abas.addTab("Consultar Livros", new PainelConsultaLivro());
 			break;
-//	        case "Periódicos":
-//	            abas.addTab("Cadastrar Periódico", new PainelCadastroPeriodico());
-//	            abas.addTab("Consultar Periódicos", new PainelConsultaPeriodico());
-//	            break;
 	        case "Exemplares":
 	            abas.addTab("Adicionar Exemplar", new JPanelCadastroExemplar());
-//	            abas.addTab("Consultar Exemplares", new PainelConsultaExemplar());
+	            abas.addTab("Lista Exemplares por Livro", new JPanelListaExemplares());
+	            abas.addTab("Atualizar status", new JPanelAtualizarStatus());
 	            break;
 //	        case "Reservas":
 //	            abas.addTab("Registrar Reserva", new PainelRegistroReserva());
@@ -141,6 +140,10 @@ public class BibliotecaApp extends JFrame {
 //	        case "Empréstimos":
 //	            abas.addTab("Registrar Empréstimo", new PainelRegistroEmprestimo());
 //	            abas.addTab("Consultar Empréstimos", new PainelConsultaEmprestimo());
+//	            break;
+//		   	case "Periódicos":
+//	            abas.addTab("Cadastrar Periódico", new PainelCadastroPeriodico());
+//	            abas.addTab("Consultar Periódicos", new PainelConsultaPeriodico());
 //	            break;
 		default:
 			JPanel painel = new JPanel();
