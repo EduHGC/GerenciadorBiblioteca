@@ -271,7 +271,7 @@ public class UsuarioController {
 			Usuario usuarioExiste = usuarioRepository.buscarPorId(usuario.getIdUsuario());
 			
 			if (usuarioExiste == null) {
-				throw new BusinessException("Débito inválido ou o campo está vazio. Informe Exemplo: 30.50");
+				throw new BusinessException("O usuário fonecido não está cadastrado no sistema.");
 			}
 
 			usuarioRepository.atualizar(usuario);
