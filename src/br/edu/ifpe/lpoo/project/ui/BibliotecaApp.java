@@ -22,6 +22,7 @@ import br.edu.ifpe.lpoo.project.ui.acervo.JPanelBuscarLivros;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelCadastroExemplar;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaExemplares;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaLivros;
+import br.edu.ifpe.lpoo.project.ui.usuario.JPanelCadastrarUsuario;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -75,10 +76,10 @@ public class BibliotecaApp extends JFrame {
 		btnLivros.setBounds(0, 0, 200, 100);
 		painelEsquerdo.add(btnLivros);
 
-		JButton btnPeriodicos = new JButton("Periódicos");
-		btnPeriodicos.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnPeriodicos.setBounds(0, 100, 200, 100);
-		painelEsquerdo.add(btnPeriodicos);
+//		JButton btnPeriodicos = new JButton("Periódicos");
+//		btnPeriodicos.setFont(new Font("Arial Black", Font.BOLD, 20));
+//		btnPeriodicos.setBounds(0, 100, 200, 100);
+//		painelEsquerdo.add(btnPeriodicos);
 
 		JButton btnExemplar = new JButton("Exemplares");
 		btnExemplar.addActionListener(new ActionListener() {
@@ -87,18 +88,28 @@ public class BibliotecaApp extends JFrame {
 			}
 		});
 		btnExemplar.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnExemplar.setBounds(0, 200, 200, 100);
+		btnExemplar.setBounds(0, 100, 200, 100);
 		painelEsquerdo.add(btnExemplar);
 
 		JButton btnReservas = new JButton("Reservas");
 		btnReservas.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnReservas.setBounds(0, 300, 200, 100);
+		btnReservas.setBounds(0, 200, 200, 100);
 		painelEsquerdo.add(btnReservas);
 
 		JButton btnEmprestimos = new JButton("Empréstimos");
 		btnEmprestimos.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnEmprestimos.setBounds(0, 400, 200, 100);
+		btnEmprestimos.setBounds(0, 300, 200, 100);
 		painelEsquerdo.add(btnEmprestimos);
+
+		JButton btnUsuario = new JButton("Usuário");
+		btnUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarSecao("Usuários");
+			}
+		});
+		btnUsuario.setFont(new Font("Arial Black", Font.BOLD, 20));
+		btnUsuario.setBounds(0, 400, 200, 100);
+		painelEsquerdo.add(btnUsuario);
 
 		// Abas a direita
 		abas = new JTabbedPane();
@@ -128,11 +139,11 @@ public class BibliotecaApp extends JFrame {
 			abas.addTab("Buscar Livros", new JPanelBuscarLivros());
 //	            abas.addTab("Consultar Livros", new PainelConsultaLivro());
 			break;
-	        case "Exemplares":
-	            abas.addTab("Adicionar Exemplar", new JPanelCadastroExemplar());
-	            abas.addTab("Lista Exemplares por Livro", new JPanelListaExemplares());
-	            abas.addTab("Atualizar status", new JPanelAtualizarStatus());
-	            break;
+		case "Exemplares":
+			abas.addTab("Adicionar Exemplar", new JPanelCadastroExemplar());
+			abas.addTab("Lista Exemplares por Livro", new JPanelListaExemplares());
+			abas.addTab("Atualizar status", new JPanelAtualizarStatus());
+			break;
 //	        case "Reservas":
 //	            abas.addTab("Registrar Reserva", new PainelRegistroReserva());
 //	            abas.addTab("Consultar Reservas", new PainelConsultaReserva());
@@ -141,6 +152,9 @@ public class BibliotecaApp extends JFrame {
 //	            abas.addTab("Registrar Empréstimo", new PainelRegistroEmprestimo());
 //	            abas.addTab("Consultar Empréstimos", new PainelConsultaEmprestimo());
 //	            break;
+		case "Usuários":
+			abas.addTab("Castratar", new JPanelCadastrarUsuario());
+			break;
 //		   	case "Periódicos":
 //	            abas.addTab("Cadastrar Periódico", new PainelCadastroPeriodico());
 //	            abas.addTab("Consultar Periódicos", new PainelConsultaPeriodico());
