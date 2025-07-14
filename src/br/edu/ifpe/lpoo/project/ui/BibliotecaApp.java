@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +22,7 @@ import br.edu.ifpe.lpoo.project.ui.acervo.JPanelCadastroExemplar;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaExemplares;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaLivros;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelCadastrarUsuario;
+import br.edu.ifpe.lpoo.project.ui.usuario.JPanelListaUsuarios;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -154,6 +154,7 @@ public class BibliotecaApp extends JFrame {
 //	            break;
 		case "Usuários":
 			abas.addTab("Castratar", new JPanelCadastrarUsuario());
+			abas.addTab("Listagem de usuários", new JPanelListaUsuarios());
 			break;
 //		   	case "Periódicos":
 //	            abas.addTab("Cadastrar Periódico", new PainelCadastroPeriodico());
