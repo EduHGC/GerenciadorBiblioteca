@@ -45,9 +45,10 @@ create table funcionario(
     cpf varchar(11) unique not null,
     nome varchar(255) not null,
     email varchar(255) not null unique,
-    telefone varchar (11) not null unique,
     matricula varchar(30) not null,
-    tipo_funcionario enum ('BIBLIOTECARIO', 'CHEFE')
+	tipo_funcionario varchar(50),
+    ativo boolean not null,
+    status_funcionario varchar(52) not null
 );
 
 create table emprestimo(
