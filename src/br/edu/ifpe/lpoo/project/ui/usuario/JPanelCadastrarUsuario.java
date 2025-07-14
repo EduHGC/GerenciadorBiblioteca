@@ -11,8 +11,6 @@ import br.edu.ifpe.lpoo.project.business.user.UsuarioController;
 import br.edu.ifpe.lpoo.project.enums.StatusUsuario;
 import br.edu.ifpe.lpoo.project.enums.TipoUsuario;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
-import br.edu.ifpe.lpoo.project.ui.acervo.JPainelCadastroLivro;
-
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
