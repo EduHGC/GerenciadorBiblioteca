@@ -21,6 +21,7 @@ import br.edu.ifpe.lpoo.project.ui.acervo.JPanelBuscarLivros;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelCadastroExemplar;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaExemplares;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaLivros;
+import br.edu.ifpe.lpoo.project.ui.usuario.JPanelAtualizarUsuario;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelCadastrarUsuario;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelListaUsuarios;
 
@@ -101,7 +102,7 @@ public class BibliotecaApp extends JFrame {
 		btnEmprestimos.setBounds(0, 300, 200, 100);
 		painelEsquerdo.add(btnEmprestimos);
 
-		JButton btnUsuario = new JButton("Usuário");
+		JButton btnUsuario = new JButton("Usuários");
 		btnUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carregarSecao("Usuários");
@@ -155,6 +156,7 @@ public class BibliotecaApp extends JFrame {
 		case "Usuários":
 			abas.addTab("Castratar", new JPanelCadastrarUsuario());
 			abas.addTab("Listagem de usuários", new JPanelListaUsuarios());
+			abas.addTab("Atualizar informações", new JPanelAtualizarUsuario());
 			break;
 //		   	case "Periódicos":
 //	            abas.addTab("Cadastrar Periódico", new PainelCadastroPeriodico());

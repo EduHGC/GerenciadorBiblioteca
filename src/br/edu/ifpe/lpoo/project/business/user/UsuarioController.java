@@ -42,6 +42,10 @@ public class UsuarioController {
 		if (telefone.isBlank() || !telefone.matches("\\d{11}")) {
 			throw new BusinessException("Telefone inválido ou o campo está vazio. DDD precisa ser incluso");
 		}
+		
+		if(telefone.charAt(2) != '9') {
+			throw new BusinessException("Falta o dígito 9 após o DDD");
+		}
 
 		if (departamentoCurso.isBlank() || departamentoCurso.length() < 3) {
 			throw new BusinessException(
@@ -204,16 +208,20 @@ public class UsuarioController {
 			throw new BusinessException("CPF inválido ou o campo está vazio");
 		}
 
-		if (matricula.isBlank() || !matricula.matches(".{5}-.{5}")) {
+		if (matricula.isBlank()) {
 			throw new BusinessException("Matrícula inválida ou o campo está vazio");
 		}
 
-		if (email.isBlank() || !email.matches("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9]+\\.[a-zA-Z]+\\.[a-zA-Z]{2,}$")) {
+		if (email.isBlank() || !email.matches("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})+$")) {
 			throw new BusinessException("Email inválido ou o campo está vazio");
 		}
 
 		if (telefone.isBlank() || !telefone.matches("\\d{11}")) {
 			throw new BusinessException("Telefone inválido ou o campo está vazio. DDD precisa ser incluso");
+		}
+		
+		if(telefone.charAt(2) != '9') {
+			throw new BusinessException("Falta o dígito 9 após o DDD");
 		}
 
 		if (departamentoCurso.isBlank() || departamentoCurso.length() < 3) {
@@ -242,7 +250,7 @@ public class UsuarioController {
 		try {
 			parseDebito = Double.parseDouble(debito);
 		} catch (NumberFormatException e) {
-			throw new BusinessException("O valor é necessário seguir o padrão XX.YY. Exemplo: 2.55 ou 35.40");
+			throw new BusinessException("O valor é necessário seguir o padrão XX,YY. Exemplo: 2,55 ou 35,40");
 		}
 		
 		BigDecimal valorEmMoeda = new BigDecimal(parseDebito);
