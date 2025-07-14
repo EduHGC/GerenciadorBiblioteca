@@ -202,7 +202,7 @@ public class UsuarioRepository implements IUsuarioRepository {
 		String termoBusca = "%" + termo.toLowerCase().trim() + "%";
 		
 		String sql = "SELECT id_usuario, cpf, matricula, nome, email, telefone, departamento, tipo_usuario, status_usuario, instituicao, debito FROM usuario "
-				+ "WHERE LOWER(nome) LIKE ? OR LOWER(departamento) LIKE ? OR cpf LIKER ? OR LOWER(instituicao) LIKE ? ORDER BY nome";
+				+ "WHERE LOWER(nome) LIKE ? OR LOWER(departamento) LIKE ? OR cpf LIKE ? OR LOWER(instituicao) LIKE ? ORDER BY nome";
 
 		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 

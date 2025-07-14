@@ -167,7 +167,7 @@ public class UsuarioController {
 			throw new BusinessException("O campo de busca está vazio");
 		}
 		
-		if(palavraChave.length() < 4) {
+		if(palavraChave.length() < 3) {
 			throw new BusinessException("O campo de busca precisa ao menos 4 caracteres");
 		}
 		
