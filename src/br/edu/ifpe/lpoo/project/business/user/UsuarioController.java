@@ -34,6 +34,10 @@ public class UsuarioController {
 		if (matricula.isBlank()) {
 			throw new BusinessException("Matrícula inválida ou o campo está vazio");
 		}
+		
+		if(nome.isBlank()) {
+			throw new BusinessException("O campo nome está vazio");
+		}
 
 		if (email.isBlank() || !email.matches("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})+$")) {
 			throw new BusinessException("Email inválido ou o campo está vazio");
@@ -129,7 +133,7 @@ public class UsuarioController {
 		return usuarios;
 	}
 
-	public void deletarLivro(String idUsuario) {
+	public void deletar(String idUsuario) {
 
 		if (idUsuario.isBlank()) {
 			throw new BusinessException("Preencha o campo do id");
