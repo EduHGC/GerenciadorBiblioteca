@@ -239,8 +239,7 @@ public class JPainelAtualizarLivro extends JPanel {
 		                "Tem certeza que deseja atualizar os dados deste livro?", "Confirmar Atualização",
 		                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 				
-				if(confirmacao == JOptionPane.OK_CANCEL_OPTION) {
-					
+				if(confirmacao == JOptionPane.CANCEL_OPTION || confirmacao == JOptionPane.CLOSED_OPTION) {
 					JOptionPane.showMessageDialog(JPainelAtualizarLivro.this,
 		                    "Operação de atualização cancelada.", "Cancelado",
 		                    JOptionPane.INFORMATION_MESSAGE);
