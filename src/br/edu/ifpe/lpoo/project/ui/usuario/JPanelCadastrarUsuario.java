@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import br.edu.ifpe.lpoo.project.business.user.FuncionarioController;
+import br.edu.ifpe.lpoo.project.business.user.UsuarioController;
 import br.edu.ifpe.lpoo.project.enums.StatusUsuario;
 import br.edu.ifpe.lpoo.project.enums.TipoUsuario;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
@@ -170,8 +170,8 @@ public class JPanelCadastrarUsuario extends JPanel {
 				
 				try {
 					
-					FuncionarioController funcionarioController = new FuncionarioController();
-					funcionarioController.inserir(cpf, matricula, nome, email, telefone, departamento, tipoUsuario, statusUsuario, instituicao);
+					UsuarioController usuarioController = new UsuarioController();
+					usuarioController.inserir(cpf, matricula, nome, email, telefone, departamento, tipoUsuario, statusUsuario, instituicao);
 					
 					JOptionPane.showMessageDialog(JPanelCadastrarUsuario.this,
 							"O usuário foi cadastrado com sucesso em nosso sistema.", "Cadastro Concluído",

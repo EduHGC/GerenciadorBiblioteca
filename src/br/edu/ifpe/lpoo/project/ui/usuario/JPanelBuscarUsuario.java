@@ -11,7 +11,7 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.SwingConstants;
 
-import br.edu.ifpe.lpoo.project.business.user.FuncionarioController;
+import br.edu.ifpe.lpoo.project.business.user.UsuarioController;
 import br.edu.ifpe.lpoo.project.entities.user.Usuario;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
 
@@ -32,7 +32,7 @@ public class JPanelBuscarUsuario extends JPanel {
 	private JPanel painelCards;
 	private JTextField textFieldInfoBusca;
 	private JComboBox<String> comboBoxOpcoesBusca;
-	private FuncionarioController funcionarioController;
+	private UsuarioController usuarioController;
 
 	/**
 	 * Create the panel.
@@ -55,16 +55,16 @@ public class JPanelBuscarUsuario extends JPanel {
 
 					String opcao = (String) comboBoxOpcoesBusca.getSelectedItem();
 					if (opcao.equals("Id")) {
-						funcionarioController = new FuncionarioController();
+						usuarioController = new UsuarioController();
 						String info = textFieldInfoBusca.getText();
-						Usuario usuario = funcionarioController.buscarPorId(info);
+						Usuario usuario = usuarioController.buscarPorId(info);
 						painelCards.add(new JPanelCardUsuario(usuario));
 					}
 
 					if (opcao.equals("Palavra-Chave")) {
-						funcionarioController = new FuncionarioController();
+						usuarioController = new UsuarioController();
 						String info = textFieldInfoBusca.getText();
-						List<Usuario> usuarios = funcionarioController.buscarPorPalavaraChave(info);
+						List<Usuario> usuarios = usuarioController.buscarPorPalavaraChave(info);
 
 						if (usuarios.isEmpty()) {
 							JLabel mensagemVazia = new JLabel("Nenhum usuário foi encontrado com essa palavra chave.",

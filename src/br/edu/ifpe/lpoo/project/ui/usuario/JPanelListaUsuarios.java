@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import br.edu.ifpe.lpoo.project.business.user.FuncionarioController;
+import br.edu.ifpe.lpoo.project.business.user.UsuarioController;
 import br.edu.ifpe.lpoo.project.entities.user.Usuario;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
 
@@ -58,8 +58,8 @@ public class JPanelListaUsuarios extends JPanel {
 		
 		try {
 			List<Usuario> usuarios = new ArrayList<Usuario>();
-			FuncionarioController funcionarioController = new FuncionarioController();
-			usuarios.addAll(funcionarioController.listarUsuarios());
+			UsuarioController usuarioController = new UsuarioController();
+			usuarios.addAll(usuarioController.listarUsuarios());
 			
 			if(usuarios.isEmpty()) {
 				JLabel mensagemVazia = new JLabel("Nenhum usuário cadastrado.", SwingConstants.CENTER);
