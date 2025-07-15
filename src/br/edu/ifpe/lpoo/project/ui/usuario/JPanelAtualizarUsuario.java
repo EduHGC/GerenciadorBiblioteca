@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import br.edu.ifpe.lpoo.project.business.user.UsuarioController;
+import br.edu.ifpe.lpoo.project.business.user.FuncionarioController;
 import br.edu.ifpe.lpoo.project.entities.user.Usuario;
 import br.edu.ifpe.lpoo.project.enums.StatusUsuario;
 import br.edu.ifpe.lpoo.project.enums.TipoUsuario;
@@ -73,8 +73,8 @@ public class JPanelAtualizarUsuario extends JPanel {
 				String idUsuario = textFieldId.getText().trim();
 				
 				try {
-					UsuarioController usuarioController = new UsuarioController();
-					Usuario usuario = usuarioController.buscarPorId(idUsuario);
+					FuncionarioController funcionarioController = new FuncionarioController();
+					Usuario usuario = funcionarioController.buscarPorId(idUsuario);
 					
 					textFieldId.setText(String.valueOf(usuario.getIdUsuario()));
 					textFieldCpf.setText(usuario.getCpf());
@@ -250,8 +250,8 @@ public class JPanelAtualizarUsuario extends JPanel {
 				
 				try {
 					
-					UsuarioController usuarioController = new UsuarioController();
-					usuarioController.atualizar(idUsuario, cpf, matricula, nome, email, telefone, departamento, tipoUsuario, statusUsuario, instituicao, debitoSting);
+					FuncionarioController funcionarioController = new FuncionarioController();
+					funcionarioController.atualizar(idUsuario, cpf, matricula, nome, email, telefone, departamento, tipoUsuario, statusUsuario, instituicao, debitoSting);
 					
 					JOptionPane.showMessageDialog(JPanelAtualizarUsuario.this,
 							"O usuário foi atualizado com sucesso em nosso sistema.", "Atualiação Concluída",
