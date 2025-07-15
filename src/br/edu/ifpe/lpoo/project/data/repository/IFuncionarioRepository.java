@@ -16,6 +16,8 @@ public interface IFuncionarioRepository {
 
 	Funcionario buscarPorId(int idFuncionario);
 
+	public void atualizarSenha(Funcionario funcionario);
+	
 	List<Funcionario> buscarTodos();
 
 }

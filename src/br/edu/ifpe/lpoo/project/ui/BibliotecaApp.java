@@ -21,6 +21,8 @@ import br.edu.ifpe.lpoo.project.ui.acervo.JPanelBuscarLivros;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelCadastroExemplar;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaExemplares;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaLivros;
+import br.edu.ifpe.lpoo.project.ui.funcionario.JPanelAtualizarFuncionario;
+import br.edu.ifpe.lpoo.project.ui.funcionario.JPanelCadastrarFuncionario;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelAtualizarUsuario;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelBuscarUsuario;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelCadastrarUsuario;
@@ -112,6 +114,16 @@ public class BibliotecaApp extends JFrame {
 		btnUsuario.setFont(new Font("Arial Black", Font.BOLD, 20));
 		btnUsuario.setBounds(0, 400, 200, 100);
 		painelEsquerdo.add(btnUsuario);
+		
+		JButton btnFuncionario = new JButton("Funcionários");
+		btnFuncionario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarSecao("Funcionários");
+			}
+		});
+		btnFuncionario.setFont(new Font("Arial Black", Font.BOLD, 20));
+		btnFuncionario.setBounds(0, 500, 200, 100);
+		painelEsquerdo.add(btnFuncionario);
 
 		// Abas a direita
 		abas = new JTabbedPane();
@@ -160,10 +172,10 @@ public class BibliotecaApp extends JFrame {
 			abas.addTab("Atualizar informações", new JPanelAtualizarUsuario());
 			abas.addTab("Buscar Usuários", new JPanelBuscarUsuario());
 			break;
-//		   	case "Periódicos":
-//	            abas.addTab("Cadastrar Periódico", new PainelCadastroPeriodico());
-//	            abas.addTab("Consultar Periódicos", new PainelConsultaPeriodico());
-//	            break;
+		   	case "Funcionários":
+	            abas.addTab("Cadastrar", new JPanelCadastrarFuncionario());
+	            abas.addTab("Atualizar informações", new JPanelAtualizarFuncionario());
+	            break;
 		default:
 			JPanel painel = new JPanel();
 			painel.add(new JLabel("Seção não reconhecida."));

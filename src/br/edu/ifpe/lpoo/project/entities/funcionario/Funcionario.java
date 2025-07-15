@@ -1,7 +1,7 @@
 package br.edu.ifpe.lpoo.project.entities.funcionario;
 
 import br.edu.ifpe.lpoo.project.enums.StatusFuncionario;
-import br.edu.ifpe.lpoo.project.enums.TipoFuncionario;
+import br.edu.ifpe.lpoo.project.enums.Cargo;
 
 public class Funcionario {
 
@@ -11,20 +11,32 @@ public class Funcionario {
 	private String email;
 	private String senha;
 	private String matricula;
-	private TipoFuncionario tipoFuncionario;
-	private boolean ativo;
+	private Cargo cargo;
+	private boolean logado;
 	private StatusFuncionario statusFuncionario;
 
+	public Funcionario(String cpf, String nome, String email, String matricula,
+			Cargo cargo, boolean logado, StatusFuncionario statusFuncionario) {
+
+		this.cpf = cpf;
+		this.nome = nome;
+		this.email = email;
+		this.matricula = matricula;
+		this.cargo = cargo;
+		this.logado = logado;
+		this.statusFuncionario = statusFuncionario;
+	}
+	
 	public Funcionario(String cpf, String nome, String email, String senha, String matricula,
-			TipoFuncionario tipoFuncionario, boolean ativo, StatusFuncionario statusFuncionario) {
+			Cargo cargo, boolean ativo, StatusFuncionario statusFuncionario) {
 
 		this.cpf = cpf;
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
 		this.matricula = matricula;
-		this.tipoFuncionario = tipoFuncionario;
-		this.ativo = ativo;
+		this.cargo = cargo;
+		this.logado = ativo;
 		this.statusFuncionario = statusFuncionario;
 	}
 
@@ -76,20 +88,20 @@ public class Funcionario {
 		this.matricula = matricula;
 	}
 
-	public TipoFuncionario getTipoFuncionario() {
-		return tipoFuncionario;
+	public Cargo getCargo() {
+		return cargo;
 	}
 
-	public void setTipoFuncionario(TipoFuncionario tipoFuncionario) {
-		this.tipoFuncionario = tipoFuncionario;
+	public void setCargo(Cargo cargo) {
+		this.cargo = cargo;
 	}
 
-	public boolean isAtivo() {
-		return ativo;
+	public boolean isLogado() {
+		return logado;
 	}
 
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
+	public void setLogado(boolean logado) {
+		this.logado = logado;
 	}
 
 	public StatusFuncionario getStatusFuncionario() {

@@ -12,15 +12,15 @@ import br.edu.ifpe.lpoo.project.enums.TipoUsuario;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
 import br.edu.ifpe.lpoo.project.exception.ExceptionDb;
 
-public class UsuarioController {
+public class FuncionarioController {
 
 	private UsuarioRepository usuarioRepository;
 
-	public UsuarioController(UsuarioRepository usuarioRepository) {
+	public FuncionarioController(UsuarioRepository usuarioRepository) {
 		this.usuarioRepository = usuarioRepository;
 	}
 
-	public UsuarioController() {
+	public FuncionarioController() {
 		this(new UsuarioRepository());
 	}
 

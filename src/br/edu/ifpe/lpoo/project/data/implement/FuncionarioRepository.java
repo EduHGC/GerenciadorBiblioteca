@@ -12,7 +12,7 @@ import br.edu.ifpe.lpoo.project.data.ConnectionDb;
 import br.edu.ifpe.lpoo.project.data.repository.IFuncionarioRepository;
 import br.edu.ifpe.lpoo.project.entities.funcionario.Funcionario;
 import br.edu.ifpe.lpoo.project.enums.StatusFuncionario;
-import br.edu.ifpe.lpoo.project.enums.TipoFuncionario;
+import br.edu.ifpe.lpoo.project.enums.Cargo;
 import br.edu.ifpe.lpoo.project.exception.ExceptionDb;
 
 public class FuncionarioRepository implements IFuncionarioRepository {
@@ -23,14 +23,15 @@ public class FuncionarioRepository implements IFuncionarioRepository {
 		String cpf = rst.getString("cpf");
 		String nome = rst.getString("nome");
 		String email = rst.getString("email");
+		String senha = rst.getString("senha");
 		String matricula = rst.getString("matricula");
 		String tipo = rst.getString("tipo_funcionario").toUpperCase();
-		TipoFuncionario tipoFuncionario = TipoFuncionario.valueOf(tipo);
+		Cargo cargo = Cargo.valueOf(tipo);
 		boolean ativo = rst.getBoolean("ativo");
 		String status = rst.getString("status_funcionario");
 		StatusFuncionario statusFuncionario = StatusFuncionario.valueOf(status);
 
-		Funcionario funcionario = new Funcionario(cpf, nome, email, status, matricula, tipoFuncionario, ativo,
+		Funcionario funcionario = new Funcionario(cpf, nome, email, senha, matricula, cargo, ativo,
 				statusFuncionario);
 		funcionario.setIdFuncionario(idFuncionario);
 
@@ -46,8 +47,8 @@ public class FuncionarioRepository implements IFuncionarioRepository {
 
 		int idFuncionario = -1;
 
-		String sql = "INSERT INTO funcionario (cpf, nome, email, matricula, tipo_funcionario, ativo, status_funcionario) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO funcionario (cpf, nome, email, senha, matricula, tipo_funcionario, ativo, status_funcionario) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -60,10 +61,11 @@ public class FuncionarioRepository implements IFuncionarioRepository {
 			stmt.setString(1, funcionario.getCpf());
 			stmt.setString(2, funcionario.getNome());
 			stmt.setString(3, funcionario.getEmail());
-			stmt.setString(4, funcionario.getMatricula());
-			stmt.setString(5, funcionario.getTipoFuncionario().name());
-			stmt.setBoolean(6, funcionario.isAtivo());
-			stmt.setString(7, funcionario.getStatusFuncionario().name());
+			stmt.setString(4, funcionario.getSenha());
+			stmt.setString(5, funcionario.getMatricula());
+			stmt.setString(6, funcionario.getCargo().name());
+			stmt.setBoolean(7, funcionario.isLogado());
+			stmt.setString(8, funcionario.getStatusFuncionario().name());
 			stmt.executeUpdate();
 
 			try (ResultSet rst = stmt.getGeneratedKeys()) {
@@ -157,8 +159,8 @@ public class FuncionarioRepository implements IFuncionarioRepository {
 			stmt.setString(2, funcionario.getNome());
 			stmt.setString(3, funcionario.getEmail());
 			stmt.setString(4, funcionario.getMatricula());
-			stmt.setString(5, funcionario.getTipoFuncionario().name());
-			stmt.setBoolean(6, funcionario.isAtivo());
+			stmt.setString(5, funcionario.getCargo().name());
+			stmt.setBoolean(6, funcionario.isLogado());
 			stmt.setString(7, funcionario.getStatusFuncionario().name());
 			stmt.setInt(8, funcionario.getIdFuncionario());
 			stmt.executeUpdate();
@@ -195,7 +197,25 @@ public class FuncionarioRepository implements IFuncionarioRepository {
 
 		return funcionario;
 	}
+	
+	@Override
+	public void atualizarSenha(Funcionario funcionario) {
+		if (funcionario == null) {
+			throw new ExceptionDb("O objeto do tipo livro não pode ser null");
+		}
 
+		String sql = "UPDATE funcionario SET senha = ? WHERE id_funcionario = ?";
+		
+		try(Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)){
+			
+			stmt.setString(1, funcionario.getSenha());
+			stmt.setInt(2, funcionario.getIdFuncionario());
+			stmt.executeUpdate();
+		}catch (SQLException e){
+			throw new ExceptionDb("Erro ao atualizar senha. Causado por: " + e.getMessage());
+		}
+	}
+	
 	@Override
 	public List<Funcionario> buscarTodos() {
 

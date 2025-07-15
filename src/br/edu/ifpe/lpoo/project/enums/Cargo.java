@@ -1,24 +1,24 @@
 package br.edu.ifpe.lpoo.project.enums;
 
-public enum TipoFuncionario {
+public enum Cargo {
 	
 	BIBLIOTECARIO("Bibliotecário"),
 	SUPERVISOR("Supervisor");
 	
-	private final String TIPO_FUNCIONARIO;
+	private final String CARGO;
 	
-	private TipoFuncionario(String tipoFuncionario) {
-		this.TIPO_FUNCIONARIO = tipoFuncionario;
+	private Cargo(String cargo) {
+		this.CARGO = cargo;
 	}
 	
-	public String getTipo() {
-		return this.TIPO_FUNCIONARIO;
+	public String getCargo() {
+		return this.CARGO;
 	}
 	
-	public static TipoFuncionario tipoUsuario(String tipoFuncionario) {
-		for(TipoFuncionario tipo : TipoFuncionario.values()) {
-			if(tipo.TIPO_FUNCIONARIO.equalsIgnoreCase(tipoFuncionario)) {
-				return tipo;
+	public static Cargo cargoFuncionario(String cargoFuncionario) {
+		for(Cargo cargo : Cargo.values()) {
+			if(cargo.CARGO.equalsIgnoreCase(cargoFuncionario)) {
+				return cargo;
 			}
 		}
 		throw new IllegalArgumentException("Tipo inválido");
