@@ -25,6 +25,7 @@ import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaLivros;
 import br.edu.ifpe.lpoo.project.ui.funcionario.JPanelAtualizarFuncionario;
 import br.edu.ifpe.lpoo.project.ui.funcionario.JPanelCadastrarFuncionario;
 import br.edu.ifpe.lpoo.project.ui.gerenciamento.JPanelRegistrarEmprestimo;
+import br.edu.ifpe.lpoo.project.ui.login.JFrameLogin;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelAtualizarUsuario;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelBuscarUsuario;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelCadastrarUsuario;
@@ -55,7 +56,7 @@ public class BibliotecaApp extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        setBounds(100, 10, 1300, 800); 
+		setMinimumSize(new java.awt.Dimension(1500, 800));
 		contentPane = new JPanel(new BorderLayout());
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -127,6 +128,15 @@ public class BibliotecaApp extends JFrame {
 		painelEsquerdo.add(btnFuncionario);
 		
 		btnDeslogar = new JButton("Sair");
+		btnDeslogar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				funcionarioLogado.setLogado(false);
+				dispose();
+				JFrameLogin jFrameLogin = new JFrameLogin();
+				jFrameLogin.setVisible(true);
+				
+			}
+		});
 		btnDeslogar.setFont( new Font("Arial Black", Font.BOLD, 20));
 		btnDeslogar.setBounds(0, 700, 200, 100);
 		painelEsquerdo.add(btnDeslogar);
@@ -147,12 +157,16 @@ public class BibliotecaApp extends JFrame {
 		abas.setBackground(new Color(255, 255, 255));
 
 		JPanel painelInicial = new JPanel();
-		painelInicial.add(new JLabel("Selecione uma opção no menu à esquerda."));
+		painelInicial.setLayout(new BorderLayout());
+		JLabel lblInicio = new JLabel("Selecione uma opção no menu à esquerda.");
+		lblInicio.setFont(new Font("Arial Black", Font.BOLD, 20));
+		lblInicio.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInicio.setVerticalAlignment(SwingConstants.CENTER);
+		painelInicial.add(lblInicio, BorderLayout.CENTER);
 		abas.addTab("Início", painelInicial);
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(painelEsquerdo), abas);
 		splitPane.setDividerLocation(200);
-		splitPane.setOneTouchExpandable(true);
 
 		// Centraliza o JSplitPane
 		contentPane.add(splitPane, BorderLayout.CENTER);
