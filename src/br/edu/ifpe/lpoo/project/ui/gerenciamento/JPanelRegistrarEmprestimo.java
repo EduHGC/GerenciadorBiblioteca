@@ -15,12 +15,14 @@ import javax.swing.SwingConstants;
 
 import br.edu.ifpe.lpoo.project.business.acervo.ExemplarController;
 import br.edu.ifpe.lpoo.project.business.acervo.LivroController;
+import br.edu.ifpe.lpoo.project.business.gerenciamento.EmprestimoController;
 import br.edu.ifpe.lpoo.project.business.user.UsuarioController;
 import br.edu.ifpe.lpoo.project.entities.acervo.Exemplar;
 import br.edu.ifpe.lpoo.project.entities.acervo.Livro;
 import br.edu.ifpe.lpoo.project.entities.funcionario.Funcionario;
 import br.edu.ifpe.lpoo.project.entities.gerenciamento.PrazoService;
 import br.edu.ifpe.lpoo.project.entities.user.Usuario;
+import br.edu.ifpe.lpoo.project.enums.StatusExemplar;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
 
 import javax.swing.BorderFactory;
@@ -59,7 +61,7 @@ public class JPanelRegistrarEmprestimo extends JPanel {
 	private JLabel lblStatusUsuario;
 	private JLabel lblStatusUsuarioValor;
 	private JButton btnRegistrar;
-	private DateTimeFormatter formatarDataVisualizacao = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	private DateTimeFormatter formatarData = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	private boolean buscaUsuario = false;
 	private boolean buscaExemplar = false;
 	private JLabel lblIdentificador;
@@ -228,7 +230,7 @@ public class JPanelRegistrarEmprestimo extends JPanel {
 					lblCpfValor.setText(usuario.getCpf());
 
 					LocalDate dataAtual = LocalDate.now();
-					lblDataEmprestimoValor.setText(dataAtual.format(formatarDataVisualizacao));
+					lblDataEmprestimoValor.setText(dataAtual.format(formatarData));
 					LocalDate dataParaDevolucao;
 					if (usuario.getTipoUsuario().name().equalsIgnoreCase("ALUNO")) {
 						dataParaDevolucao = dataAtual.plusDays(PrazoService.PRAZO_ALUNO);
@@ -237,7 +239,7 @@ public class JPanelRegistrarEmprestimo extends JPanel {
 					} else {
 						dataParaDevolucao = dataAtual.plusDays(PrazoService.PRAZO_PESQUISADOR);
 					}
-					lblDataParaDevolucaoValor.setText(dataParaDevolucao.format(formatarDataVisualizacao));
+					lblDataParaDevolucaoValor.setText(dataParaDevolucao.format(formatarData));
 
 					lblStatusUsuarioValor.setText(usuario.getStatusUsuario().getStatus());
 
@@ -325,7 +327,7 @@ public class JPanelRegistrarEmprestimo extends JPanel {
 
 		lblStatusUsuarioValor = new JLabel("");
 		lblStatusUsuarioValor.setFont(new Font("Arial Black", Font.BOLD, 13));
-		lblStatusUsuarioValor.setBounds(763, 340, 175, 20);
+		lblStatusUsuarioValor.setBounds(763, 390, 175, 20);
 		add(lblStatusUsuarioValor);
 
 		btnRegistrar = new JButton("Registrar");
@@ -346,10 +348,32 @@ public class JPanelRegistrarEmprestimo extends JPanel {
 					return;
 				}
 				
-//				String idExemplar = lblIdentificadorValor.getText();
-//				String idUsuario = lblIdentificadorUsuarioValor.getText();
-//				String idBibliotecario = "1";
-////				String
+				String idExemplar = lblIdentificadorValor.getText();
+				String idUsuario = lblIdentificadorUsuarioValor.getText();
+				String idBibliotecario = String.valueOf(funcionarioLogado.getIdFuncionario());
+				LocalDate dataEmprestimo = LocalDate.parse(lblDataEmprestimoValor.getText(), formatarData);
+				LocalDate dataParaDevolucao = LocalDate.parse(lblDataParaDevolucaoValor.getText(), formatarData);
+				
+				try {
+					EmprestimoController emprestimoController = new EmprestimoController();
+					emprestimoController.registrar(idExemplar, idUsuario, idBibliotecario, dataEmprestimo, dataParaDevolucao, "Aberto");
+					
+					ExemplarController exemplarController = new ExemplarController();
+					Exemplar exemplar = exemplarController.buscarExemplarId(lblIdentificadorValor.getText());
+					exemplar.setStatus(StatusExemplar.EMPRESTADO);
+					exemplarController.atualizarStatus(exemplar);
+					
+					JOptionPane.showMessageDialog(JPanelRegistrarEmprestimo.this,
+							"Empréstimo realizado com sucesso.", "Empréstimo Concluído",
+							JOptionPane.INFORMATION_MESSAGE);
+					
+					limparCamposExemplar();
+					limparCamposUsuario();
+					
+				} catch (BusinessException e2) {
+					JOptionPane.showMessageDialog(JPanelRegistrarEmprestimo.this, e2.getMessage(), "Erro",
+							JOptionPane.ERROR_MESSAGE);
+				}
 
 			}
 		});
@@ -369,6 +393,7 @@ public class JPanelRegistrarEmprestimo extends JPanel {
 		lblCapaLivro.setText("Capa do livro");
 		buscaExemplar = false;
 		btnRegistrar.setEnabled(false);
+		textFieldIdExemplar.setText("");
 	}
 
 	private void limparCamposUsuario() {
@@ -380,5 +405,6 @@ public class JPanelRegistrarEmprestimo extends JPanel {
 		lblStatusUsuarioValor.setText("");
 		buscaUsuario = false;
 		btnRegistrar.setEnabled(false);
+		textFieldIdUsuario.setText("");
 	}
 }

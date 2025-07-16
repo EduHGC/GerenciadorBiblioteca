@@ -25,9 +25,9 @@ public class EmprestimoController {
 
 		int exemplar = parseId(idExemplar, "Campo id exemplar");
 		int usuario = parseId(idUsuario, "Campo id usuário");
-		int bivliotecario = parseId(idBibliotecario, "Campo id usuário");
+		int bibliotecario = parseId(idBibliotecario, "Campo id usuário");
 
-		Emprestimo emprestimo = new Emprestimo(exemplar, usuario, bivliotecario, dataEmprestimo, dataParaDevolucao,
+		Emprestimo emprestimo = new Emprestimo(exemplar, usuario, bibliotecario, dataEmprestimo, dataParaDevolucao,
 				StatusEmprestimo.statusEmprestimo(statusEmprestimo));
 		
 		try {
