@@ -2,7 +2,6 @@ package br.edu.ifpe.lpoo.project.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JButton;
@@ -12,8 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import br.edu.ifpe.lpoo.project.entities.funcionario.Funcionario;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPainelAtualizarLivro;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPainelCadastroLivro;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelAtualizarStatus;
@@ -23,6 +24,7 @@ import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaExemplares;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaLivros;
 import br.edu.ifpe.lpoo.project.ui.funcionario.JPanelAtualizarFuncionario;
 import br.edu.ifpe.lpoo.project.ui.funcionario.JPanelCadastrarFuncionario;
+import br.edu.ifpe.lpoo.project.ui.gerenciamento.JPanelRegistrarEmprestimo;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelAtualizarUsuario;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelBuscarUsuario;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelCadastrarUsuario;
@@ -36,28 +38,21 @@ public class BibliotecaApp extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTabbedPane abas;
+	private JButton btnLivros;
+	private JButton btnExemplar;
+	private JButton btnFuncionario;
+	private JButton btnReservas;
+	private JButton btnEmprestimos;
+	private JButton btnUsuario;
+	private JLabel lblNomeFuncionario;
+	private Funcionario funcionarioLogado;
+	private JButton btnDeslogar;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BibliotecaApp frame = new BibliotecaApp();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public BibliotecaApp() {
-
+	
+	public BibliotecaApp(Funcionario funcionarioLogado) {
+		
+		this.funcionarioLogado = funcionarioLogado;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 //        setBounds(100, 10, 1300, 800); 
@@ -69,62 +64,84 @@ public class BibliotecaApp extends JFrame {
 		JPanel painelEsquerdo = new JPanel();
 		painelEsquerdo.setBackground(new Color(240, 240, 255));
 		painelEsquerdo.setLayout(null);
-
-		JButton btnLivros = new JButton("Livros");
+		
+		lblNomeFuncionario = new JLabel("");
+		lblNomeFuncionario.setFont(new Font("Arial Black", Font.BOLD, 13));
+		lblNomeFuncionario.setBounds(0, 0, 200, 100);
+		painelEsquerdo.add(lblNomeFuncionario);
+		
+		btnLivros = new JButton("Livros");
 		btnLivros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carregarSecao("Livros");
 			}
 		});
 		btnLivros.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnLivros.setBounds(0, 0, 200, 100);
+		btnLivros.setBounds(0, 100, 200, 100);
 		painelEsquerdo.add(btnLivros);
 
-//		JButton btnPeriodicos = new JButton("Periódicos");
-//		btnPeriodicos.setFont(new Font("Arial Black", Font.BOLD, 20));
-//		btnPeriodicos.setBounds(0, 100, 200, 100);
-//		painelEsquerdo.add(btnPeriodicos);
 
-		JButton btnExemplar = new JButton("Exemplares");
+		btnExemplar = new JButton("Exemplares");
 		btnExemplar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carregarSecao("Exemplares");
 			}
 		});
 		btnExemplar.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnExemplar.setBounds(0, 100, 200, 100);
+		btnExemplar.setBounds(0, 200, 200, 100);
 		painelEsquerdo.add(btnExemplar);
 
-		JButton btnReservas = new JButton("Reservas");
+		btnReservas = new JButton("Reservas");
 		btnReservas.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnReservas.setBounds(0, 200, 200, 100);
+		btnReservas.setBounds(0, 300, 200, 100);
 		painelEsquerdo.add(btnReservas);
 
-		JButton btnEmprestimos = new JButton("Empréstimos");
+		btnEmprestimos = new JButton("Empréstimos");
+		btnEmprestimos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarSecao("Empréstimos");
+			}
+		});
 		btnEmprestimos.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnEmprestimos.setBounds(0, 300, 200, 100);
+		btnEmprestimos.setBounds(0, 400, 200, 100);
 		painelEsquerdo.add(btnEmprestimos);
 
-		JButton btnUsuario = new JButton("Usuários");
+		btnUsuario = new JButton("Usuários");
 		btnUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carregarSecao("Usuários");
 			}
 		});
 		btnUsuario.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnUsuario.setBounds(0, 400, 200, 100);
+		btnUsuario.setBounds(0, 500, 200, 100);
 		painelEsquerdo.add(btnUsuario);
 		
-		JButton btnFuncionario = new JButton("Funcionários");
+		btnFuncionario = new JButton("Funcionários");
 		btnFuncionario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carregarSecao("Funcionários");
 			}
 		});
 		btnFuncionario.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnFuncionario.setBounds(0, 500, 200, 100);
+		btnFuncionario.setBounds(0, 600, 200, 100);
 		painelEsquerdo.add(btnFuncionario);
-
+		
+		btnDeslogar = new JButton("Sair");
+		btnDeslogar.setFont( new Font("Arial Black", Font.BOLD, 20));
+		btnDeslogar.setBounds(0, 700, 200, 100);
+		painelEsquerdo.add(btnDeslogar);
+		
+		if(!funcionarioLogado.getCargo().getCargo().equals("Supervisor")) {
+			btnFuncionario.setEnabled(false);
+		}
+		
+		String[] nome = funcionarioLogado.getNome().split(" ");
+		
+		lblNomeFuncionario.setText("<html><div style='text-align: center;'>Bem vindo<br>" + nome[0] + "</div></html>");
+		lblNomeFuncionario.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		
+		
 		// Abas a direita
 		abas = new JTabbedPane();
 		abas.setBackground(new Color(255, 255, 255));
@@ -139,7 +156,8 @@ public class BibliotecaApp extends JFrame {
 
 		// Centraliza o JSplitPane
 		contentPane.add(splitPane, BorderLayout.CENTER);
-
+		
+		
 	}
 
 	private void carregarSecao(String secao) {
@@ -162,10 +180,10 @@ public class BibliotecaApp extends JFrame {
 //	            abas.addTab("Registrar Reserva", new PainelRegistroReserva());
 //	            abas.addTab("Consultar Reservas", new PainelConsultaReserva());
 //	            break;
-//	        case "Empréstimos":
-//	            abas.addTab("Registrar Empréstimo", new PainelRegistroEmprestimo());
+	        case "Empréstimos":
+	            abas.addTab("Registrar Empréstimo", new JPanelRegistrarEmprestimo(funcionarioLogado));
 //	            abas.addTab("Consultar Empréstimos", new PainelConsultaEmprestimo());
-//	            break;
+	            break;
 		case "Usuários":
 			abas.addTab("Castratar", new JPanelCadastrarUsuario());
 			abas.addTab("Listagem de usuários", new JPanelListaUsuarios());

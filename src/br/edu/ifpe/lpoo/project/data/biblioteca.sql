@@ -59,7 +59,7 @@ create table emprestimo(
     data_emprestimo date not null,
     data_devolucao date not null,
     data_real_devolucao date,
-    status_emprestimo enum('ABERTO', 'FINALIZADO', 'ATRASADO'),
+   	status_emprestimo varchar(50) not null,,
     foreign key (id_exemplar) references exemplar (id_exemplar),
     foreign key (id_usuario) references usuario (id_usuario),
     foreign key (id_bibliotecario) references funcionario (id_funcionario)
