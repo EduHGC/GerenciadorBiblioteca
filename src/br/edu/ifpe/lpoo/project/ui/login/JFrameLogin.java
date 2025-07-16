@@ -88,6 +88,13 @@ public class JFrameLogin extends JFrame {
 					LoginController loginController = new LoginController();
 					Funcionario funcionario = loginController.buscarLogin(email);
 					
+					if(!funcionario.getStatusFuncionario().getStatus().equals("Efetivo")) {
+						JOptionPane.showMessageDialog(JFrameLogin.this,
+								"Funcionário bloqueado!", "Erro",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					
 					if(senha.equals(funcionario.getSenha())) {
 						funcionario.setLogado(true);
 						loginController.atualizarParaLogin(funcionario);
