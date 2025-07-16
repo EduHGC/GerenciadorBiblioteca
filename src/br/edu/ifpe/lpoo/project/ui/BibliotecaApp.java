@@ -24,6 +24,7 @@ import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaExemplares;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaLivros;
 import br.edu.ifpe.lpoo.project.ui.funcionario.JPanelAtualizarFuncionario;
 import br.edu.ifpe.lpoo.project.ui.funcionario.JPanelCadastrarFuncionario;
+import br.edu.ifpe.lpoo.project.ui.gerenciamento.JPanelListarEmprestimos;
 import br.edu.ifpe.lpoo.project.ui.gerenciamento.JPanelRegistrarEmprestimo;
 import br.edu.ifpe.lpoo.project.ui.login.JFrameLogin;
 import br.edu.ifpe.lpoo.project.ui.usuario.JPanelAtualizarUsuario;
@@ -196,7 +197,7 @@ public class BibliotecaApp extends JFrame {
 //	            break;
 	        case "Empréstimos":
 	            abas.addTab("Registrar Empréstimo", new JPanelRegistrarEmprestimo(funcionarioLogado));
-//	            abas.addTab("Consultar Empréstimos", new PainelConsultaEmprestimo());
+	            abas.addTab("Lista de empréstimos", new JPanelListarEmprestimos());
 	            break;
 		case "Usuários":
 			abas.addTab("Castratar", new JPanelCadastrarUsuario());

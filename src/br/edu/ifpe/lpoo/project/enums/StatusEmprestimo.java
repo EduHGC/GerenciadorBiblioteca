@@ -12,6 +12,10 @@ public enum StatusEmprestimo {
 		this.STATUS_EMPRESTIMO = statusEmprestimo;
 	}
 	
+	public String getStatus() {
+		return this.STATUS_EMPRESTIMO;
+	}
+	
 	public static StatusEmprestimo statusEmprestimo(String statusEmprestimo) {
 		for(StatusEmprestimo status : StatusEmprestimo.values()) {
 			if(status.STATUS_EMPRESTIMO.equalsIgnoreCase(statusEmprestimo)) {

@@ -25,6 +25,22 @@ public class Emprestimo {
 		this.dataDevolucao = dataDevolucao;
 		this.statusEmprestimo = statusEmprestimo;
 	}
+	
+	
+	
+	public Emprestimo(int idEmprestimo, int idExemplar, int idUsuario, int idBibliotecario, LocalDate dataEmprestimo,
+			LocalDate dataDevolucao, LocalDate dataRealDevolucao, StatusEmprestimo statusEmprestimo) {
+		this.idEmprestimo = idEmprestimo;
+		this.idExemplar = idExemplar;
+		this.idUsuario = idUsuario;
+		this.idBibliotecario = idBibliotecario;
+		this.dataEmprestimo = dataEmprestimo;
+		this.dataDevolucao = dataDevolucao;
+		this.dataRealDevolucao = dataRealDevolucao;
+		this.statusEmprestimo = statusEmprestimo;
+	}
+
+
 
 	public int getIdEmprestimo() {
 		return idEmprestimo;

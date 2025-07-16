@@ -62,8 +62,8 @@ public class JFrameLogin extends JFrame {
 		passwordFieldSenha.setBounds(150, 220, 400, 40);
 		contentPane.add(passwordFieldSenha);
 		
-//		textFieldUsuario.setText("maria@biblioteca.edu.br");
-//		passwordFieldSenha.setText("Maria1234@");
+		textFieldUsuario.setText("maria@biblioteca.edu.br");
+		passwordFieldSenha.setText("Maria1234@");
 		
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.addActionListener(new ActionListener() {

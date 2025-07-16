@@ -1,8 +1,11 @@
 package br.edu.ifpe.lpoo.project.business.gerenciamento;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.edu.ifpe.lpoo.project.data.implement.EmprestimoRepository;
+import br.edu.ifpe.lpoo.project.entities.gerenciamento.CardEmprestimo;
 import br.edu.ifpe.lpoo.project.entities.gerenciamento.Emprestimo;
 import br.edu.ifpe.lpoo.project.enums.StatusEmprestimo;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
@@ -39,6 +42,23 @@ public class EmprestimoController {
 		}
 		
 	}
+	
+	public List<Emprestimo> listarEmprestimos(){
+		
+		List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
+		
+		try {
+			emprestimos.addAll(emprestimoRepository.listarTodos());
+		}catch(ExceptionDb e) {
+			throw new BusinessException("Erro: " + e.getMessage());
+		}
+		
+		if(emprestimos.isEmpty()) {
+			throw new BusinessException("Não existe registro de empréstimos");
+		}
+		
+		return emprestimos;
+	}
 
 	private int parseId(String id, String campo) {
 
@@ -50,5 +70,20 @@ public class EmprestimoController {
 		}
 
 		return parse;
+	}
+	
+	public CardEmprestimo buscarCardEmprestimo(int idEmpestimo) {
+		CardEmprestimo cardEmprestimo = null;
+		try {
+			cardEmprestimo = emprestimoRepository.cardEmprestimo(idEmpestimo);
+			
+			if(cardEmprestimo == null) {
+				throw new BusinessException("O empréstimo com id fonecido não está cadastrado no sistema.");
+			}
+		}catch ( ExceptionDb e) {
+			throw new BusinessException("Erro no banco de dados: " + e.getMessage());
+		}
+		
+		return cardEmprestimo;
 	}
 }
