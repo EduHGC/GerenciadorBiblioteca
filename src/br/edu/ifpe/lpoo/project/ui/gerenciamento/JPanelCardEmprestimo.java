@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -30,8 +31,9 @@ public class JPanelCardEmprestimo extends JPanel {
 	private JLabel lblDataParaDevolucaoValor;
 	private JLabel lblDataRealDevolucaoValor;
 	private JLabel lblStatusDoEmprestimoValor;
+	private JLabel lblStatusDeEntregaValor;
 	private DateTimeFormatter formatarData = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-	
+
 	public JPanelCardEmprestimo(CardEmprestimo cardEmprestimo) {
 
 		setLayout(null);
@@ -86,108 +88,121 @@ public class JPanelCardEmprestimo extends JPanel {
 		lblDataEmprestimo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDataEmprestimo.setBounds(10, 310, 280, 20);
 		add(lblDataEmprestimo);
-		
+
 		JLabel lblIdLivro = new JLabel("Identificador:");
 		lblIdLivro.setVerticalAlignment(SwingConstants.TOP);
 		lblIdLivro.setHorizontalAlignment(SwingConstants.LEFT);
 		lblIdLivro.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblIdLivro.setBounds(10, 10, 280, 20);
 		add(lblIdLivro);
-		
+
 		lblIdentificadorValor = new JLabel("");
 		lblIdentificadorValor.setVerticalAlignment(SwingConstants.TOP);
 		lblIdentificadorValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblIdentificadorValor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblIdentificadorValor.setBounds(10, 30, 280, 20);
 		add(lblIdentificadorValor);
-		
+
 		lblNomeValor = new JLabel("");
 		lblNomeValor.setVerticalAlignment(SwingConstants.TOP);
 		lblNomeValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNomeValor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblNomeValor.setBounds(10, 80, 280, 20);
 		add(lblNomeValor);
-		
+
 		lblCpfValor = new JLabel("");
 		lblCpfValor.setVerticalAlignment(SwingConstants.TOP);
 		lblCpfValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCpfValor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblCpfValor.setBounds(10, 130, 280, 20);
 		add(lblCpfValor);
-		
+
 		lblBibliotecarioValor = new JLabel("");
 		lblBibliotecarioValor.setVerticalAlignment(SwingConstants.TOP);
 		lblBibliotecarioValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblBibliotecarioValor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblBibliotecarioValor.setBounds(10, 180, 280, 20);
 		add(lblBibliotecarioValor);
-		
+
 		lblTituloValor = new JLabel("");
 		lblTituloValor.setVerticalAlignment(SwingConstants.TOP);
 		lblTituloValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTituloValor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblTituloValor.setBounds(10, 230, 280, 20);
 		add(lblTituloValor);
-		
+
 		lblIdExemplarValor = new JLabel("");
 		lblIdExemplarValor.setVerticalAlignment(SwingConstants.TOP);
 		lblIdExemplarValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblIdExemplarValor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblIdExemplarValor.setBounds(10, 280, 280, 20);
 		add(lblIdExemplarValor);
-		
+
 		lblDataEmprestimoValor = new JLabel("");
 		lblDataEmprestimoValor.setVerticalAlignment(SwingConstants.TOP);
 		lblDataEmprestimoValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDataEmprestimoValor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblDataEmprestimoValor.setBounds(10, 330, 280, 20);
 		add(lblDataEmprestimoValor);
-		
+
 		lblDataParaDevolucaoValor = new JLabel("");
 		lblDataParaDevolucaoValor.setVerticalAlignment(SwingConstants.TOP);
 		lblDataParaDevolucaoValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDataParaDevolucaoValor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblDataParaDevolucaoValor.setBounds(10, 380, 280, 20);
 		add(lblDataParaDevolucaoValor);
-		
+
 		JLabel lblDataParaDevolucao = new JLabel("Data para devolução:");
 		lblDataParaDevolucao.setVerticalAlignment(SwingConstants.TOP);
 		lblDataParaDevolucao.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDataParaDevolucao.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblDataParaDevolucao.setBounds(10, 360, 280, 20);
 		add(lblDataParaDevolucao);
-		
+
 		JLabel lblDataRealDevolucao = new JLabel("Data real da devolução:");
 		lblDataRealDevolucao.setVerticalAlignment(SwingConstants.TOP);
 		lblDataRealDevolucao.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDataRealDevolucao.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblDataRealDevolucao.setBounds(10, 410, 280, 20);
 		add(lblDataRealDevolucao);
-		
+
 		lblDataRealDevolucaoValor = new JLabel("");
 		lblDataRealDevolucaoValor.setVerticalAlignment(SwingConstants.TOP);
 		lblDataRealDevolucaoValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDataRealDevolucaoValor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblDataRealDevolucaoValor.setBounds(10, 430, 280, 20);
 		add(lblDataRealDevolucaoValor);
-		
+
 		JLabel lblStatusDoEmprestimo = new JLabel("Status do emprestimo:");
 		lblStatusDoEmprestimo.setVerticalAlignment(SwingConstants.TOP);
 		lblStatusDoEmprestimo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblStatusDoEmprestimo.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblStatusDoEmprestimo.setBounds(338, 310, 221, 20);
 		add(lblStatusDoEmprestimo);
-		
+
 		lblStatusDoEmprestimoValor = new JLabel("");
 		lblStatusDoEmprestimoValor.setVerticalAlignment(SwingConstants.TOP);
 		lblStatusDoEmprestimoValor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblStatusDoEmprestimoValor.setFont(new Font("Arial Black", Font.BOLD, 14));
 		lblStatusDoEmprestimoValor.setBounds(338, 330, 247, 20);
 		add(lblStatusDoEmprestimoValor);
-		
+
+		JLabel lblStatusDeEntrega = new JLabel("Status de entrega:");
+		lblStatusDeEntrega.setVerticalAlignment(SwingConstants.TOP);
+		lblStatusDeEntrega.setHorizontalAlignment(SwingConstants.LEFT);
+		lblStatusDeEntrega.setFont(new Font("Arial Black", Font.BOLD, 14));
+		lblStatusDeEntrega.setBounds(338, 360, 221, 20);
+		add(lblStatusDeEntrega);
+
+		lblStatusDeEntregaValor = new JLabel("");
+		lblStatusDeEntregaValor.setVerticalAlignment(SwingConstants.TOP);
+		lblStatusDeEntregaValor.setHorizontalAlignment(SwingConstants.LEFT);
+		lblStatusDeEntregaValor.setFont(new Font("Arial Black", Font.BOLD, 14));
+		lblStatusDeEntregaValor.setBounds(338, 380, 247, 20);
+		add(lblStatusDeEntregaValor);
+
 		if (cardEmprestimo != null) {
-			
-			
+
 			lblIdentificadorValor.setText(String.valueOf(cardEmprestimo.getIdEmprestimo()));
 			lblNomeValor.setText(cardEmprestimo.getNomeUsuario());
 			lblCpfValor.setText(cardEmprestimo.getCpfUsuario());
@@ -196,36 +211,45 @@ public class JPanelCardEmprestimo extends JPanel {
 			lblIdExemplarValor.setText(String.valueOf(cardEmprestimo.getIdExemplar()));
 			lblDataEmprestimoValor.setText(cardEmprestimo.getDataEmprestimo().format(formatarData));
 			lblDataParaDevolucaoValor.setText(cardEmprestimo.getDataParaDevolucao().format(formatarData));
-			if(cardEmprestimo.getDataRealDevolucao() != null) {
+			if (cardEmprestimo.getDataRealDevolucao() != null) {
 				lblDataRealDevolucaoValor.setText(cardEmprestimo.getDataRealDevolucao().format(formatarData));
-			}else {
+
+				if (cardEmprestimo.getDataRealDevolucao().isAfter(cardEmprestimo.getDataParaDevolucao())) {
+					int diasAtraso = (int) ChronoUnit.DAYS.between(
+						cardEmprestimo.getDataParaDevolucao(),
+						cardEmprestimo.getDataRealDevolucao());
+					lblStatusDeEntregaValor.setText("Entregue com atraso: " + diasAtraso + " dia(s)");
+				} else {
+					lblStatusDeEntregaValor.setText("Entregue no prazo");
+				}
+			} else {
 				lblDataRealDevolucaoValor.setText("-");
+				lblStatusDeEntregaValor.setText("Não entregue");
 			}
-			
-			lblStatusDoEmprestimoValor.setText(cardEmprestimo.getStatusExemplar().getStatus());
-			
+
 			String pathAppBiblioteca = System.getenv("APPDATA");
 			File pastaCapas = new File(pathAppBiblioteca, "Biblioteca/Capas");
-			
+
 			String[] extensoes = { "png", "jpg", "jpeg" };
-			
-			for(String extensao : extensoes) {
-				File capa = new File (pastaCapas, cardEmprestimo.getIdLivro() + "." + extensao);
-				if(capa.exists()) {
+
+			for (String extensao : extensoes) {
+				File capa = new File(pastaCapas, cardEmprestimo.getIdLivro() + "." + extensao);
+				if (capa.exists()) {
 					ImageIcon imageIco = new ImageIcon(capa.getAbsolutePath());
-					
+
 					int widthLblCapaLivro = lblCapaLivro.getWidth();
 					int heightLblCapaLivro = lblCapaLivro.getHeight();
-					
+
 					Image originalImage = imageIco.getImage();
-					Image redimensionar = originalImage.getScaledInstance(widthLblCapaLivro, heightLblCapaLivro, Image.SCALE_SMOOTH);
+					Image redimensionar = originalImage.getScaledInstance(widthLblCapaLivro, heightLblCapaLivro,
+							Image.SCALE_SMOOTH);
 					ImageIcon imagemCapa = new ImageIcon(redimensionar);
-					
+
 					lblCapaLivro.setIcon(imagemCapa);
 					lblCapaLivro.setText("");
 				}
 			}
-			
+
 		}
 	}
 }

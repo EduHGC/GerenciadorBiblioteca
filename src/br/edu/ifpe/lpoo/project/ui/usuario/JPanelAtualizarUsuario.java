@@ -264,6 +264,7 @@ public class JPanelAtualizarUsuario extends JPanel {
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}
+			
 		});
 		btnNewButton.setFont(new Font("Arial Black", Font.BOLD, 15));
 		btnNewButton.setBounds(295, 20, 145, 40);

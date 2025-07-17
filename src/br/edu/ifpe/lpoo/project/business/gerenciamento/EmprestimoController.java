@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifpe.lpoo.project.data.implement.EmprestimoRepository;
+import br.edu.ifpe.lpoo.project.data.implement.ExemplarRepository;
+import br.edu.ifpe.lpoo.project.entities.acervo.Exemplar;
 import br.edu.ifpe.lpoo.project.entities.gerenciamento.CardEmprestimo;
 import br.edu.ifpe.lpoo.project.entities.gerenciamento.Emprestimo;
 import br.edu.ifpe.lpoo.project.enums.StatusEmprestimo;
+import br.edu.ifpe.lpoo.project.enums.StatusExemplar;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
 import br.edu.ifpe.lpoo.project.exception.ExceptionDb;
 
@@ -97,10 +100,38 @@ public class EmprestimoController {
 	    }
 
 	    try {
+	    	ExemplarRepository exemplarRepository = new ExemplarRepository();
 	        emprestimoRepository.atualizar(emprestimo);
+	        Exemplar exemplar = exemplarRepository.buscarPorId(emprestimo.getIdExemplar());
+	        exemplar.setStatus(StatusExemplar.DISPONIVEL);
+	        exemplarRepository.atualizar(exemplar);
 	    } catch (ExceptionDb e) {
 	        throw new BusinessException("Erro no banco de dados: " + e.getMessage());
 	    }
+	}
+	
+	public void atualizarStatusEmprestimos() {
+	    try {
+	        emprestimoRepository.atualizarStatusAtrasados();
+	    } catch (ExceptionDb e) {
+	        throw new BusinessException("Erro no banco de dados: " + e.getMessage());
+	    }
+	}
+	
+	public List<Emprestimo> listarEmprestimosAtrasados() {
+	    List<Emprestimo> emprestimos = new ArrayList<>();
+
+	    try {
+	        emprestimos = emprestimoRepository.listarTodosAtrazados();
+	    } catch (ExceptionDb e) {
+	        throw new BusinessException("Erro ao buscar empréstimos atrasados: " + e.getMessage());
+	    }
+
+	    if (emprestimos.isEmpty()) {
+	        throw new BusinessException("Nenhum empréstimo atrasado encontrado.");
+	    }
+
+	    return emprestimos;
 	}
 	
 	private int parseId(String id, String campo) {
@@ -114,4 +145,8 @@ public class EmprestimoController {
 
 		return parse;
 	}
+	
+	
+
+
 }

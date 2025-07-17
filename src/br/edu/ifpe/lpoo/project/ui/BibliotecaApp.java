@@ -14,7 +14,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import br.edu.ifpe.lpoo.project.business.gerenciamento.AtualizaMultasAtrasoService;
 import br.edu.ifpe.lpoo.project.entities.funcionario.Funcionario;
+
 import br.edu.ifpe.lpoo.project.ui.acervo.JPainelAtualizarLivro;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPainelCadastroLivro;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelAtualizarStatus;
@@ -54,6 +56,8 @@ public class BibliotecaApp extends JFrame {
 	public BibliotecaApp(Funcionario funcionarioLogado) {
 		
 		this.funcionarioLogado = funcionarioLogado;
+		
+		AtualizaMultasAtrasoService.atualizarAtrazoEMultar();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -97,6 +101,7 @@ public class BibliotecaApp extends JFrame {
 		btnEmprestimos = new JButton("Empréstimos");
 		btnEmprestimos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				AtualizaMultasAtrasoService.atualizarAtrazoEMultar();
 				carregarSecao("Empréstimos");
 			}
 		});
@@ -217,6 +222,7 @@ public class BibliotecaApp extends JFrame {
 	        }
 	    }
 	}
+	
 	
 	public void atualizarAbaListagemLivros() {
 	    for (int i = 0; i < abas.getTabCount(); i++) {

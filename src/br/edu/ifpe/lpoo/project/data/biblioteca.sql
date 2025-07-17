@@ -65,11 +65,10 @@ create table emprestimo(
     foreign key (id_bibliotecario) references funcionario (id_funcionario)
 );
 
-create table multa(
-	id_multa int auto_increment primary key,
-    id_emprestimo int not null,
-    data_multa date not null,
-    valor decimal(6,2) not null,
-    status_multa enum('ABERTO', 'PAGO'),
-    foreign key (id_emprestimo) references emprestimo (id_emprestimo)
+CREATE TABLE atualizar_sistema (
+    id int PRIMARY KEY,
+    data_ultima_atualizacao date NOT NULL
 );
+
+INSERT INTO atualizar_sistema (id, data_ultima_atualizacao) VALUES (1, '2025-01-01');
+

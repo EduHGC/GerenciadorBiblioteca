@@ -6,14 +6,18 @@ import br.edu.ifpe.lpoo.project.entities.gerenciamento.CardEmprestimo;
 import br.edu.ifpe.lpoo.project.entities.gerenciamento.Emprestimo;
 
 public interface IEmprestimoRepository {
-	
+
 	void inserir(Emprestimo emprestimo);
-	
+
 	List<Emprestimo> listarTodos();
-	
+
 	void atualizar(Emprestimo emprestimo);
-	
+
 	Emprestimo buscarEmprestimoPorId(int id);
-	
+
 	CardEmprestimo cardEmprestimo(int idEmprestimo);
+
+	void atualizarStatusAtrasados();
+	
+	List<Emprestimo> listarTodosAtrazados();
 }

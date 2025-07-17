@@ -217,5 +217,66 @@ public class EmprestimoRepository implements IEmprestimoRepository {
 
 		return cardEmprestimo;
 	}
+	
+	@Override
+	public void atualizarStatusAtrasados() {
+	    String sql = "UPDATE emprestimo SET status_emprestimo = ? " +
+	                 "WHERE status_emprestimo = ? AND data_devolucao < CURDATE()";
+
+	    try (Connection conn = ConnectionDb.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        
+	    	stmt.setString(1, StatusEmprestimo.ATRASADO.name());
+	    	stmt.setString(2, StatusEmprestimo.ABERTO.name());
+	    	stmt.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        throw new ExceptionDb("Erro ao atualizar status dos empréstimos. Causado por: " + e.getMessage());
+	    }
+	}
+	
+	
+	@Override
+	public List<Emprestimo> listarTodosAtrazados() {
+
+		List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
+
+		String sql = "SELECT * FROM emprestimo WHERE status_emprestimo = ?";
+
+		Emprestimo emprestimo;
+
+		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setString(1, StatusEmprestimo.ATRASADO.name());
+			
+			try (ResultSet rst = stmt.executeQuery()) {
+				while (rst.next()) {
+
+					int idEmprestimo = rst.getInt("id_emprestimo");
+					int idExemplar = rst.getInt("id_exemplar");
+					int idUsuario = rst.getInt("id_usuario");
+					int idBibliotecario = rst.getInt("id_bibliotecario");
+					LocalDate dataEmprestimo = rst.getDate("data_emprestimo").toLocalDate();
+					LocalDate dataDevolucao = rst.getDate("data_devolucao").toLocalDate();
+					Date dataRealDevolucaoSql = rst.getDate("data_real_devolucao");
+					LocalDate dataRealDevolucao = dataRealDevolucaoSql != null ? dataRealDevolucaoSql.toLocalDate()
+							: null;
+					String status = rst.getString("status_emprestimo").toUpperCase();
+					StatusEmprestimo statusEmprestimo = StatusEmprestimo.valueOf(status);
+
+					emprestimo = new Emprestimo(idEmprestimo, idExemplar, idUsuario, idBibliotecario, dataEmprestimo,
+							dataDevolucao, dataRealDevolucao, statusEmprestimo);
+
+					emprestimos.add(emprestimo);
+
+				}
+			}
+
+		} catch (SQLException e) {
+			throw new ExceptionDb("Erro ao buscar empréstimos no banco de dados: Causado por: " + e.getMessage());
+		}
+
+		return emprestimos;
+	}
 
 }
