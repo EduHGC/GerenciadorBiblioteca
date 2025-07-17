@@ -3,8 +3,6 @@ package br.edu.ifpe.lpoo.project.ui.acervo;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -28,12 +26,7 @@ public class JPanelListaLivros extends JPanel {
 	public JPanelListaLivros() {
 
 		setLayout(new BorderLayout());
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent e) {
-				atualizarLista();
-			}
-		});
+		
 		livroController = new LivroController();
 
 		JLabel titulo = new JLabel("Catálogo de livros");
@@ -78,8 +71,5 @@ public class JPanelListaLivros extends JPanel {
 
 	}
 	
-	private void atualizarLista() {
-		carregarLivros();
-	}
 
 }

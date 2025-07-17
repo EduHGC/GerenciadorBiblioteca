@@ -11,6 +11,8 @@ import br.edu.ifpe.lpoo.project.business.user.UsuarioController;
 import br.edu.ifpe.lpoo.project.enums.StatusUsuario;
 import br.edu.ifpe.lpoo.project.enums.TipoUsuario;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
+import br.edu.ifpe.lpoo.project.ui.BibliotecaApp;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -30,7 +32,7 @@ public class JPanelCadastrarUsuario extends JPanel {
 	private JComboBox<String> comboBoxCategoria;
 	private JComboBox<String> comboBoxStatus;
 
-	public JPanelCadastrarUsuario() {
+	public JPanelCadastrarUsuario(BibliotecaApp app) {
 
 		setLayout(null);
 
@@ -178,6 +180,7 @@ public class JPanelCadastrarUsuario extends JPanel {
 							JOptionPane.INFORMATION_MESSAGE);
 					
 					limparCampos();
+					app.atualizarAbaListagemUsuarios();
 					
 				} catch (BusinessException e1) {
 					JOptionPane.showMessageDialog(JPanelCadastrarUsuario.this, e1.getMessage(), "Erro",

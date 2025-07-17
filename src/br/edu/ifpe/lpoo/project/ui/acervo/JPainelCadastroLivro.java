@@ -6,6 +6,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import br.edu.ifpe.lpoo.project.business.acervo.LivroController;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
+import br.edu.ifpe.lpoo.project.ui.BibliotecaApp;
 
 import java.awt.*;
 import java.io.File;
@@ -30,9 +31,9 @@ public class JPainelCadastroLivro extends JPanel {
 	private File arquivoCapaSelecionada;
 	private JLabel lblCapa;
 	private JLabel lblCapaLivro;
-
-	public JPainelCadastroLivro() {
-
+	
+	public JPainelCadastroLivro(BibliotecaApp app) {
+		
 		setLayout(null);
 
 		JLabel lblIsbn = new JLabel("ISBN");
@@ -194,6 +195,7 @@ public class JPainelCadastroLivro extends JPanel {
 							"O livro foi cadastrado com sucesso em nosso sistema.", "Cadastro Concluído",
 							JOptionPane.INFORMATION_MESSAGE);
 					limparCampos();
+					app.atualizarAbaListagemLivros();
 
 				} catch (BusinessException e1) {
 					JOptionPane.showMessageDialog(JPainelCadastroLivro.this, e1.getMessage(), "Erro",

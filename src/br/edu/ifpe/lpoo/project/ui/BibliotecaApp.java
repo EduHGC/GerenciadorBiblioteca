@@ -180,14 +180,13 @@ public class BibliotecaApp extends JFrame {
 
 		switch (secao) {
 		case "Livros":
-			abas.addTab("Cadastrar Livro", new JPainelCadastroLivro());
+			abas.addTab("Cadastrar Livro", new JPainelCadastroLivro(this));
 			abas.addTab("Lista de Livros", new JPanelListaLivros());
 			abas.addTab("Atualizar informações", new JPainelAtualizarLivro());
 			abas.addTab("Buscar Livros", new JPanelBuscarLivros());
-//	            abas.addTab("Consultar Livros", new PainelConsultaLivro());
 			break;
 		case "Exemplares":
-			abas.addTab("Adicionar Exemplar", new JPanelCadastroExemplar());
+			abas.addTab("Adicionar Exemplar", new JPanelCadastroExemplar(this));
 			abas.addTab("Lista Exemplares por Livro", new JPanelListaExemplares());
 			abas.addTab("Atualizar status", new JPanelAtualizarStatus());
 			break;
@@ -196,11 +195,11 @@ public class BibliotecaApp extends JFrame {
 //	            abas.addTab("Consultar Reservas", new PainelConsultaReserva());
 //	            break;
 	        case "Empréstimos":
-	            abas.addTab("Registrar Empréstimo", new JPanelRegistrarEmprestimo(funcionarioLogado));
+	            abas.addTab("Registrar Empréstimo", new JPanelRegistrarEmprestimo(funcionarioLogado, this));
 	            abas.addTab("Lista de empréstimos", new JPanelListarEmprestimos());
 	            break;
 		case "Usuários":
-			abas.addTab("Castratar", new JPanelCadastrarUsuario());
+			abas.addTab("Castratar", new JPanelCadastrarUsuario(this));
 			abas.addTab("Listagem de usuários", new JPanelListaUsuarios());
 			abas.addTab("Atualizar informações", new JPanelAtualizarUsuario());
 			abas.addTab("Buscar Usuários", new JPanelBuscarUsuario());
@@ -216,5 +215,40 @@ public class BibliotecaApp extends JFrame {
 			break;
 		}
 	}
-
+	
+	public void atualizarAbaListagemEmprestimos() {
+	    for (int i = 0; i < abas.getTabCount(); i++) {
+	        if (abas.getTitleAt(i).equals("Lista de empréstimos")) {
+	            abas.setComponentAt(i, new JPanelListarEmprestimos());
+	            break;
+	        }
+	    }
+	}
+	
+	public void atualizarAbaListagemLivros() {
+	    for (int i = 0; i < abas.getTabCount(); i++) {
+	        if (abas.getTitleAt(i).equals("Lista de Livros")) {
+	            abas.setComponentAt(i, new JPanelListaLivros());
+	            break;
+	        }
+	    }
+	}
+	
+	public void atualizarAbaListagemExemplares() {
+	    for (int i = 0; i < abas.getTabCount(); i++) {
+	        if (abas.getTitleAt(i).equals("Lista Exemplares por Livro")) {
+	            abas.setComponentAt(i, new JPanelListaExemplares());
+	            break;
+	        }
+	    }
+	}
+	
+	public void atualizarAbaListagemUsuarios() {
+	    for (int i = 0; i < abas.getTabCount(); i++) {
+	        if (abas.getTitleAt(i).equals("Listagem de usuários")) {
+	            abas.setComponentAt(i, new JPanelListaUsuarios());
+	            break;
+	        }
+	    }
+	}
 }

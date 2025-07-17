@@ -24,6 +24,7 @@ import br.edu.ifpe.lpoo.project.entities.gerenciamento.PrazoService;
 import br.edu.ifpe.lpoo.project.entities.user.Usuario;
 import br.edu.ifpe.lpoo.project.enums.StatusExemplar;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
+import br.edu.ifpe.lpoo.project.ui.BibliotecaApp;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -37,7 +38,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class JPanelRegistrarEmprestimo extends JPanel {
-
+	
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldIdExemplar;
 	private JLabel lblCapaLivro;
@@ -68,9 +69,12 @@ public class JPanelRegistrarEmprestimo extends JPanel {
 	private JLabel lblIdentificadorUsuarioValor;
 	private Funcionario funcionarioLogado;
 
-	public JPanelRegistrarEmprestimo(Funcionario funcionarioLogado) {
+	private BibliotecaApp app;
+	
+	public JPanelRegistrarEmprestimo(Funcionario funcionarioLogado, BibliotecaApp app) {
 		
 		this.funcionarioLogado = funcionarioLogado;
+		this.app = app;
 		
 		setPreferredSize(new Dimension(1200, 700));
 		setLayout(null);
@@ -369,6 +373,7 @@ public class JPanelRegistrarEmprestimo extends JPanel {
 					
 					limparCamposExemplar();
 					limparCamposUsuario();
+					app.atualizarAbaListagemEmprestimos();
 					
 				} catch (BusinessException e2) {
 					JOptionPane.showMessageDialog(JPanelRegistrarEmprestimo.this, e2.getMessage(), "Erro",

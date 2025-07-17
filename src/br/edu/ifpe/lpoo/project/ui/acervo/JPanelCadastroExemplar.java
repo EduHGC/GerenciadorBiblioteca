@@ -6,6 +6,7 @@ import br.edu.ifpe.lpoo.project.business.acervo.ExemplarController;
 import br.edu.ifpe.lpoo.project.business.acervo.LivroController;
 import br.edu.ifpe.lpoo.project.entities.acervo.Livro;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
+import br.edu.ifpe.lpoo.project.ui.BibliotecaApp;
 
 import java.awt.*;
 import java.io.File;
@@ -34,9 +35,10 @@ public class JPanelCadastroExemplar extends JPanel {
 	private JButton btnCadastrar;
 	private JLabel lblQtdExemplares;
 	private JLabel lblValorQtdExemplares;
-
-	public JPanelCadastroExemplar() {
-
+	
+	
+	public JPanelCadastroExemplar(BibliotecaApp app) {
+		
 		setLayout(null);
 		
 		JLabel lblIsbn = new JLabel("ISBN");
@@ -266,6 +268,7 @@ public class JPanelCadastroExemplar extends JPanel {
 							JOptionPane.INFORMATION_MESSAGE);
 					
 					limparCampos();
+					app.atualizarAbaListagemExemplares();
 					
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(JPanelCadastroExemplar.this, e1.getMessage(), "Erro",

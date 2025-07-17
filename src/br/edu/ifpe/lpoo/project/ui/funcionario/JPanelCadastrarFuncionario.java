@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import br.edu.ifpe.lpoo.project.business.funcionario.FuncionarioController;
 import br.edu.ifpe.lpoo.project.enums.Cargo;
 import br.edu.ifpe.lpoo.project.exception.BusinessException;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -28,9 +29,11 @@ public class JPanelCadastrarFuncionario extends JPanel {
 	private JComboBox<String> comboBoxCargo;
 	private JPasswordField passwordFieldSenha;
 	private JPasswordField passwordFieldConfirSenha;
-
+	
+	
 	public JPanelCadastrarFuncionario() {
-
+		
+		
 		setLayout(null);
 
 		JLabel lblCpf = new JLabel("CPF");
