@@ -65,19 +65,6 @@ create table emprestimo(
     foreign key (id_bibliotecario) references funcionario (id_funcionario)
 );
 
-CREATE TABLE reserva(
-	id_reserva INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL,
-    id_exemplar int not null,
-    id_funcionario int not null,
-	data_reserva Date not null,
-	data_expiracao Date not null,
-    status_reserva enum ('ATIVA', 'EXPIRADA', 'FINALIZADA'),
-    foreign key (id_usuario) references usuario (id_usuario),
-    foreign key (id_exemplar) references exemplar (id_exemplar),
-    foreign key (id_funcionario) references funcionario (id_funcionario)
-);
-
 create table multa(
 	id_multa int auto_increment primary key,
     id_emprestimo int not null,

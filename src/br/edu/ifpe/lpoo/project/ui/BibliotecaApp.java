@@ -24,6 +24,7 @@ import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaExemplares;
 import br.edu.ifpe.lpoo.project.ui.acervo.JPanelListaLivros;
 import br.edu.ifpe.lpoo.project.ui.funcionario.JPanelAtualizarFuncionario;
 import br.edu.ifpe.lpoo.project.ui.funcionario.JPanelCadastrarFuncionario;
+import br.edu.ifpe.lpoo.project.ui.gerenciamento.JPanelFinalizarEmprestimo;
 import br.edu.ifpe.lpoo.project.ui.gerenciamento.JPanelListarEmprestimos;
 import br.edu.ifpe.lpoo.project.ui.gerenciamento.JPanelRegistrarEmprestimo;
 import br.edu.ifpe.lpoo.project.ui.login.JFrameLogin;
@@ -43,7 +44,6 @@ public class BibliotecaApp extends JFrame {
 	private JButton btnLivros;
 	private JButton btnExemplar;
 	private JButton btnFuncionario;
-	private JButton btnReservas;
 	private JButton btnEmprestimos;
 	private JButton btnUsuario;
 	private JLabel lblNomeFuncionario;
@@ -93,11 +93,7 @@ public class BibliotecaApp extends JFrame {
 		btnExemplar.setBounds(0, 200, 200, 100);
 		painelEsquerdo.add(btnExemplar);
 
-		btnReservas = new JButton("Reservas");
-		btnReservas.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnReservas.setBounds(0, 300, 200, 100);
-		painelEsquerdo.add(btnReservas);
-
+		
 		btnEmprestimos = new JButton("Empréstimos");
 		btnEmprestimos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -105,7 +101,7 @@ public class BibliotecaApp extends JFrame {
 			}
 		});
 		btnEmprestimos.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnEmprestimos.setBounds(0, 400, 200, 100);
+		btnEmprestimos.setBounds(0, 300, 200, 100);
 		painelEsquerdo.add(btnEmprestimos);
 
 		btnUsuario = new JButton("Usuários");
@@ -115,7 +111,7 @@ public class BibliotecaApp extends JFrame {
 			}
 		});
 		btnUsuario.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnUsuario.setBounds(0, 500, 200, 100);
+		btnUsuario.setBounds(0, 400, 200, 100);
 		painelEsquerdo.add(btnUsuario);
 		
 		btnFuncionario = new JButton("Funcionários");
@@ -125,7 +121,7 @@ public class BibliotecaApp extends JFrame {
 			}
 		});
 		btnFuncionario.setFont(new Font("Arial Black", Font.BOLD, 20));
-		btnFuncionario.setBounds(0, 600, 200, 100);
+		btnFuncionario.setBounds(0, 500, 200, 100);
 		painelEsquerdo.add(btnFuncionario);
 		
 		btnDeslogar = new JButton("Sair");
@@ -139,7 +135,7 @@ public class BibliotecaApp extends JFrame {
 			}
 		});
 		btnDeslogar.setFont( new Font("Arial Black", Font.BOLD, 20));
-		btnDeslogar.setBounds(0, 700, 200, 100);
+		btnDeslogar.setBounds(0, 600, 200, 100);
 		painelEsquerdo.add(btnDeslogar);
 		
 		if(!funcionarioLogado.getCargo().getCargo().equals("Supervisor")) {
@@ -190,14 +186,11 @@ public class BibliotecaApp extends JFrame {
 			abas.addTab("Lista Exemplares por Livro", new JPanelListaExemplares());
 			abas.addTab("Atualizar status", new JPanelAtualizarStatus());
 			break;
-//	        case "Reservas":
-//	            abas.addTab("Registrar Reserva", new PainelRegistroReserva());
-//	            abas.addTab("Consultar Reservas", new PainelConsultaReserva());
-//	            break;
-	        case "Empréstimos":
-	            abas.addTab("Registrar Empréstimo", new JPanelRegistrarEmprestimo(funcionarioLogado, this));
-	            abas.addTab("Lista de empréstimos", new JPanelListarEmprestimos());
-	            break;
+        case "Empréstimos":
+            abas.addTab("Registrar Empréstimo", new JPanelRegistrarEmprestimo(funcionarioLogado, this));
+            abas.addTab("Lista de empréstimos", new JPanelListarEmprestimos());
+            abas.addTab("Finalizar empréstimo", new JPanelFinalizarEmprestimo(this));
+            break;
 		case "Usuários":
 			abas.addTab("Castratar", new JPanelCadastrarUsuario(this));
 			abas.addTab("Listagem de usuários", new JPanelListaUsuarios());

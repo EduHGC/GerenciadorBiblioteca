@@ -90,47 +90,131 @@ public class EmprestimoRepository implements IEmprestimoRepository {
 		return emprestimos;
 	}
 
+	@Override
+	public void atualizar(Emprestimo emprestimo) {
+
+		if (emprestimo == null) {
+			throw new ExceptionDb("O objeto do tipo Emprestimo não pode ser nulo para atualizar.");
+		}
+
+		String sql = "UPDATE emprestimo SET id_exemplar = ?, id_usuario = ?, id_bibliotecario = ?, "
+				+ "data_emprestimo = ?, data_devolucao = ?, data_real_devolucao = ?, status_emprestimo = ? "
+				+ "WHERE id_emprestimo = ?";
+
+
+		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setInt(1, emprestimo.getIdExemplar());
+			stmt.setInt(2, emprestimo.getIdUsuario());
+			stmt.setInt(3, emprestimo.getIdBibliotecario());
+			stmt.setDate(4, Date.valueOf(emprestimo.getDataEmprestimo()));
+			stmt.setDate(5, Date.valueOf(emprestimo.getDataDevolucao()));
+			stmt.setDate(6, emprestimo.getDataRealDevolucao() != null 
+				    ? Date.valueOf(emprestimo.getDataRealDevolucao()) 
+				    : null);
+			stmt.setString(7, emprestimo.getStatusEmprestimo().name());
+			stmt.setInt(8, emprestimo.getIdEmprestimo());
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new ExceptionDb("Erro ao atualizar empréstimo. Causado por: " + e.getMessage());
+		}
+
+	}
+
+	@Override
+	public Emprestimo buscarEmprestimoPorId(int idEmprestimo) {
+	    
+		if (idEmprestimo <= 0) {
+			throw new ExceptionDb("O id do empréstimo não pode ser menor que 1 para fazer a busca.");
+		}
+		
+		String sql = "SELECT * FROM emprestimo WHERE id_emprestimo = ? LIMIT 1";
+	    
+	    Emprestimo emprestimo = null;
+	    
+	    try (Connection conn = ConnectionDb.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        
+	        stmt.setInt(1, idEmprestimo);
+	        
+	        try (ResultSet rst = stmt.executeQuery()) {
+	            if (rst.next()) {
+	                int idExemplar = rst.getInt("id_exemplar");
+	                int idUsuario = rst.getInt("id_usuario");
+	                int idBibliotecario = rst.getInt("id_bibliotecario");
+	                LocalDate dataEmprestimo = rst.getDate("data_emprestimo").toLocalDate();
+	                LocalDate dataDevolucao = rst.getDate("data_devolucao").toLocalDate();
+	                Date dataRealDevolucaoSql = rst.getDate("data_real_devolucao");
+	                LocalDate dataRealDevolucao = dataRealDevolucaoSql != null ? dataRealDevolucaoSql.toLocalDate() : null;
+	                String status = rst.getString("status_emprestimo").toUpperCase();
+	                StatusEmprestimo statusEmprestimo = StatusEmprestimo.valueOf(status);
+	                
+	                emprestimo = new Emprestimo(idEmprestimo, idExemplar, idUsuario, idBibliotecario, dataEmprestimo,
+	                                           dataDevolucao, dataRealDevolucao, statusEmprestimo);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        throw new ExceptionDb("Erro ao buscar empréstimo no banco. Causado por: " + e.getMessage());
+	    }
+	    
+	    return emprestimo;
+	}
+
+
+	@Override
 	public CardEmprestimo cardEmprestimo(int idEmprestimo) {
 
 		String sql = "SELECT emprestimo.id_emprestimo, emprestimo.data_emprestimo, emprestimo.data_devolucao, emprestimo.data_real_devolucao, "
 				+ "emprestimo.status_emprestimo, usuario.nome AS usuario_nome, usuario.cpf, funcionario.nome AS funcionario_nome, item_acervo.titulo, "
-				+ "exemplar.id_exemplar, exemplar.id_item "
-				+ "FROM emprestimo " + "INNER JOIN usuario ON usuario.id_usuario = emprestimo.id_usuario "
+				+ "exemplar.id_exemplar, exemplar.id_item " + "FROM emprestimo "
+				+ "INNER JOIN usuario ON usuario.id_usuario = emprestimo.id_usuario "
 				+ "INNER JOIN funcionario ON funcionario.id_funcionario = emprestimo.id_bibliotecario "
 				+ "INNER JOIN exemplar ON exemplar.id_exemplar = emprestimo.id_exemplar "
-				+ "INNER JOIN item_acervo ON item_acervo.id_item = exemplar.id_item " + "WHERE emprestimo.id_emprestimo = ?";
-		
-		CardEmprestimo cardEmprestimo = null;
-		
-		try(Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)){
-			
-			stmt.setInt(1, idEmprestimo);
-			
-			try(ResultSet rst = stmt.executeQuery()){
-				if(rst.next()) {
-			
-			            String nomeUsuario = rst.getString("usuario_nome");
-			            String cpfUsuario = rst.getString("cpf");
-			            String nomeFuncionario = rst.getString("funcionario_nome"); 
-			            String titulo = rst.getString("titulo");
-			            LocalDate dataEmprestimo = rst.getDate("data_emprestimo") != null ? rst.getDate("data_emprestimo").toLocalDate() : null;
-			            LocalDate dataParaDevolucao = rst.getDate("data_devolucao") != null ? rst.getDate("data_devolucao").toLocalDate() : null;
-			            LocalDate dataRealDevolucao = rst.getDate("data_real_devolucao") != null ? rst.getDate("data_real_devolucao").toLocalDate() : null;
-			            int idLivro = rst.getInt("id_item");
-			            int idExemplar = rst.getInt("id_exemplar");
-			            String status = rst.getString("status_emprestimo").toUpperCase();
-			            StatusEmprestimo statusEmprestimo = StatusEmprestimo.valueOf(status);
+				+ "INNER JOIN item_acervo ON item_acervo.id_item = exemplar.id_item "
+				+ "WHERE emprestimo.id_emprestimo = ?";
 
-			            cardEmprestimo = new CardEmprestimo(idEmprestimo, nomeUsuario, cpfUsuario, nomeFuncionario, titulo, dataEmprestimo, dataParaDevolucao, dataRealDevolucao, idLivro, idExemplar, statusEmprestimo);
-			           
-			        }
-				
+		CardEmprestimo cardEmprestimo = null;
+
+		try (Connection conn = ConnectionDb.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setInt(1, idEmprestimo);
+
+			try (ResultSet rst = stmt.executeQuery()) {
+				if (rst.next()) {
+
+					String nomeUsuario = rst.getString("usuario_nome");
+					String cpfUsuario = rst.getString("cpf");
+					String nomeFuncionario = rst.getString("funcionario_nome");
+					String titulo = rst.getString("titulo");
+					LocalDate dataEmprestimo = rst.getDate("data_emprestimo") != null
+							? rst.getDate("data_emprestimo").toLocalDate()
+							: null;
+					LocalDate dataParaDevolucao = rst.getDate("data_devolucao") != null
+							? rst.getDate("data_devolucao").toLocalDate()
+							: null;
+					LocalDate dataRealDevolucao = rst.getDate("data_real_devolucao") != null
+							? rst.getDate("data_real_devolucao").toLocalDate()
+							: null;
+					int idLivro = rst.getInt("id_item");
+					int idExemplar = rst.getInt("id_exemplar");
+					String status = rst.getString("status_emprestimo").toUpperCase();
+					StatusEmprestimo statusEmprestimo = StatusEmprestimo.valueOf(status);
+
+					cardEmprestimo = new CardEmprestimo(idEmprestimo, nomeUsuario, cpfUsuario, nomeFuncionario, titulo,
+							dataEmprestimo, dataParaDevolucao, dataRealDevolucao, idLivro, idExemplar,
+							statusEmprestimo);
+
+				}
+
 			}
-			
-		}catch (SQLException e) {
-			throw new ExceptionDb("Erro ao buscar informações relarionadas à empréstimos no banco de dados: Causado por: " + e.getMessage());
+
+		} catch (SQLException e) {
+			throw new ExceptionDb(
+					"Erro ao buscar informações relarionadas à empréstimos no banco de dados: Causado por: "
+							+ e.getMessage());
 		}
-		
+
 		return cardEmprestimo;
 	}
 

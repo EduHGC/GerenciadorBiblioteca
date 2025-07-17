@@ -60,17 +60,6 @@ public class EmprestimoController {
 		return emprestimos;
 	}
 
-	private int parseId(String id, String campo) {
-
-		int parse;
-		try {
-			parse = Integer.parseInt(id);
-		} catch (NumberFormatException e) {
-			throw new BusinessException(campo + " não tem id númerico");
-		}
-
-		return parse;
-	}
 	
 	public CardEmprestimo buscarCardEmprestimo(int idEmpestimo) {
 		CardEmprestimo cardEmprestimo = null;
@@ -85,5 +74,44 @@ public class EmprestimoController {
 		}
 		
 		return cardEmprestimo;
+	}
+	
+	public Emprestimo buscarEmprestimoPorId(int idEmprestimo) {
+	    Emprestimo emprestimo = null;
+	    try {
+	        emprestimo = emprestimoRepository.buscarEmprestimoPorId(idEmprestimo);
+	        if (emprestimo == null) {
+	            throw new BusinessException("Empréstimo com o id fornecido não foi encontrado.");
+	        }
+	    } catch (ExceptionDb e) {
+	        throw new BusinessException("Erro no banco de dados: " + e.getMessage());
+	    }
+	    return emprestimo;
+	}
+
+	
+	public void atualizarEmprestimoFinalizar(Emprestimo emprestimo) {
+		
+		if (emprestimo == null) {
+	        throw new BusinessException("Empréstimo para atualização não pode ser nulo.");
+	    }
+
+	    try {
+	        emprestimoRepository.atualizar(emprestimo);
+	    } catch (ExceptionDb e) {
+	        throw new BusinessException("Erro no banco de dados: " + e.getMessage());
+	    }
+	}
+	
+	private int parseId(String id, String campo) {
+
+		int parse;
+		try {
+			parse = Integer.parseInt(id);
+		} catch (NumberFormatException e) {
+			throw new BusinessException(campo + " não tem id númerico");
+		}
+
+		return parse;
 	}
 }
