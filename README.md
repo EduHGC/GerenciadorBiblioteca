@@ -1,47 +1,51 @@
 # Gerenciador de Biblioteca
 
-Sistema para gerenciamento de bibliotecas, com foco em controle de empréstimos de exemplares, cadastro e atualização de dados via operações CRUD, além do gerenciamento de usuários e funcionários (bibliotecários).
-
-## Descrição
-
-O Gerenciador de Biblioteca é uma aplicação que permite:
-
-- Realizar empréstimos e devoluções de exemplares;
-- Executar operações CRUD (criar, ler, atualizar, deletar) para livros, usuários e funcionários;
-- Controlar o acesso de bibliotecários e gerenciar seus dados cadastrais;
-- Manter um histórico de movimentações para cada usuário;
-- Realizar a administração geral do sistema por meio de um usuário com perfil de administrador.
-
-## Como utilizar
-
-### 1. Instalar as dependências necessárias
-
-- Baixe e instale o **JDK** (Java Development Kit) em sua máquina;
-- Utilize uma IDE compatível com projetos Java, como **Eclipse**, **IntelliJ IDEA** ou **NetBeans**;
-- Instale o **MySQL** como sistema gerenciador de banco de dados (SGBD).
-
-### 2. Preparar o banco de dados
-
-- No MySQL, crie um banco de dados com o nome `sgdb`;
-- Execute o script localizado em `pacote data`, no arquivo `biblioteca.sql`, para criar as tabelas e dados iniciais.
-
-### 3. Executar a aplicação
-
-- Abra o projeto na IDE de sua preferência;
-- Localize e execute o arquivo `Main`, que está no pacote `main`.
-
-### 4. Acessar o sistema
-
-- Faça login utilizando o seguinte usuário administrador padrão:
-
-  - **Email:** `adm@biblioteca.edu.br`
-  - **Senha:** `Adm12345@`
-
-### 5. Atualizar dados do administrador
-
-- Após o primeiro login, acesse a seção **Funcionários**;
-- Atualize o email, senha e os dados cadastrais do administrador conforme necessário para maior segurança.
+Este projeto é um sistema abrangente para o gerenciamento de bibliotecas, focado em otimizar a administração de empréstimos de exemplares, a manutenção de registros (CRUD) de livros e usuários, e a gestão de diferentes perfis de acesso, como e bibliotecários e administrador.
 
 ---
 
-Este sistema é ideal para bibliotecas que buscam uma solução simples para gerenciar acervos, usuários e movimentações de forma prática e segura.
+## Funcionalidades
+
+O sistema permite:
+
+* **Empréstimo e Devolução de Exemplares:** Gerencie o fluxo de livros emprestados e devolvidos, controlando prazos e status.
+* **CRUD de Livros:** Adicione, visualize, atualize e exclua informações sobre os livros disponíveis na biblioteca.
+* **Gerenciamento de Usuários:** Cadastre novos usuários, visualize seus dados, atualize informações e gerencie seus históricos de empréstimos.
+* **Controle de Bibliotecários:** Gerencie o acesso e as permissões dos bibliotecários, permitindo que eles executem tarefas administrativas essenciais.
+* **Sistema de Login:** Dois níveis de acesso para bibliotecario e administradores, garantindo a segurança dos dados.
+
+---
+
+## Primeiros Passos
+
+Siga as instruções abaixo para configurar e executar o Gerenciador de Biblioteca em seu ambiente.
+
+### Pré-requisitos
+
+* **Java Development Kit (JDK):** Certifique-se de ter o JDK instalado. Recomenda-se uma versão compatível com o projeto (por exemplo, JDK 11 ou superior).
+* **IDE (Integrated Development Environment):** Utilize uma IDE compatível com Java, como IntelliJ IDEA, Eclipse ou Apache NetBeans.
+* **MySQL:** Instale o servidor de banco de dados MySQL em sua máquina.
+
+### Configuração
+
+1.  **Baixe o Projeto:** Clone ou faça o download do repositório do Gerenciador de Biblioteca.
+
+2.  **Configuração do Banco de Dados:**
+    * Abra o **MySQL Workbench** ou um cliente MySQL de sua preferência.
+    * Execute o script SQL localizado em `data/biblioteca.sql`. Este script irá criar o banco de dados e as tabelas necessárias e popular com alguns dados iniciais.
+
+3.  **Configuração da IDE:**
+    * Abra o projeto na sua IDE.
+    * Certifique-se de que as dependências do projeto estejam resolvidas (geralmente, a IDE faz isso automaticamente ao importar o projeto). Pode ser necessário configurar o driver JDBC do MySQL no seu projeto se ainda não estiver configurado.
+
+### Execução
+
+1.  **Execute o Arquivo Principal:** Navegue até o pacote `main` e execute o arquivo `Main.java`. Este é o ponto de entrada da aplicação.
+
+2.  **Credenciais Iniciais:** Ao iniciar o sistema, você poderá fazer login com as seguintes credenciais de administrador:
+    * **Email:** `adm@biblioteca.edu.br`
+    * **Senha:** `Adm12345@`
+
+3.  **Atualização do Administrador:** Após o primeiro login, é **altamente recomendável** que você acesse a seção **"Funcionários"** no sistema e atualize o e-mail, senha e dados cadastrais do administrador para garantir a segurança da sua instalação.
+
+---
